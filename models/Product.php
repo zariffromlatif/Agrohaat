@@ -79,4 +79,133 @@ class Product {
             ':fid' => $farmer_id
         ]);
     }
+
+    // === BUYER METHODS ===
+
+    /**
+     * Get all active products for marketplace (buyer view)
+     */
+    public function getAllActive() {
+        $sql = "SELECT p.*, u.full_name AS farmer_name, u.district, u.upazila
+                FROM products p
+                JOIN users u ON u.user_id = p.farmer_id
+                WHERE p.is_deleted = 0 AND p.status = 'ACTIVE'
+                ORDER BY p.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Search products with filters
+     */
+    public function search($search_term = '', $category_id = null, $district = null, $min_price = null, $max_price = null, $quality_grade = null, $limit = 12, $offset = 0) {
+        $sql = "SELECT p.*, u.full_name AS farmer_name, u.district, u.upazila
+                FROM products p
+                JOIN users u ON u.user_id = p.farmer_id
+                WHERE p.is_deleted = 0 AND p.status = 'ACTIVE'";
+
+        $params = [];
+
+        if (!empty($search_term)) {
+            $sql .= " AND (p.title LIKE :search OR p.description LIKE :search)";
+            $params[':search'] = '%' . $search_term . '%';
+        }
+
+        if ($category_id) {
+            $sql .= " AND p.category_id = :category_id";
+            $params[':category_id'] = $category_id;
+        }
+
+        if ($district) {
+            $sql .= " AND u.district = :district";
+            $params[':district'] = $district;
+        }
+
+        if ($min_price !== null) {
+            $sql .= " AND p.price_per_unit >= :min_price";
+            $params[':min_price'] = $min_price;
+        }
+
+        if ($max_price !== null) {
+            $sql .= " AND p.price_per_unit <= :max_price";
+            $params[':max_price'] = $max_price;
+        }
+
+        if ($quality_grade) {
+            $sql .= " AND p.quality_grade = :quality_grade";
+            $params[':quality_grade'] = $quality_grade;
+        }
+
+        $sql .= " ORDER BY p.created_at DESC LIMIT :limit OFFSET :offset";
+        $params[':limit'] = $limit;
+        $params[':offset'] = $offset;
+
+        $stmt = $this->pdo->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get product by ID (for buyer view)
+     */
+    public function getById($product_id) {
+        $sql = "SELECT p.*, u.full_name AS farmer_name, u.district, u.upazila, u.phone_number AS farmer_phone
+                FROM products p
+                JOIN users u ON u.user_id = p.farmer_id
+                WHERE p.product_id = :pid AND p.is_deleted = 0 AND p.status = 'ACTIVE'";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':pid' => $product_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get count of products matching search criteria
+     */
+    public function getSearchCount($search_term = '', $category_id = null, $district = null, $min_price = null, $max_price = null, $quality_grade = null) {
+        $sql = "SELECT COUNT(*) as total
+                FROM products p
+                JOIN users u ON u.user_id = p.farmer_id
+                WHERE p.is_deleted = 0 AND p.status = 'ACTIVE'";
+
+        $params = [];
+
+        if (!empty($search_term)) {
+            $sql .= " AND (p.title LIKE :search OR p.description LIKE :search)";
+            $params[':search'] = '%' . $search_term . '%';
+        }
+
+        if ($category_id) {
+            $sql .= " AND p.category_id = :category_id";
+            $params[':category_id'] = $category_id;
+        }
+
+        if ($district) {
+            $sql .= " AND u.district = :district";
+            $params[':district'] = $district;
+        }
+
+        if ($min_price !== null) {
+            $sql .= " AND p.price_per_unit >= :min_price";
+            $params[':min_price'] = $min_price;
+        }
+
+        if ($max_price !== null) {
+            $sql .= " AND p.price_per_unit <= :max_price";
+            $params[':max_price'] = $max_price;
+        }
+
+        if ($quality_grade) {
+            $sql .= " AND p.quality_grade = :quality_grade";
+            $params[':quality_grade'] = $quality_grade;
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }

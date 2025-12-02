@@ -74,4 +74,51 @@ class User {
 
         return false;
     }
+
+    // ---- LOGIN ADMIN ----
+    public function loginAdmin($email, $password) {
+        $sql = "SELECT * FROM users WHERE email = :email AND role = 'ADMIN' AND is_deleted = 0";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password_hash'])) {
+            return $user;
+        }
+
+        return false;
+    }
+
+    // ---- REGISTER TRANSPORTER ----
+    public function registerTransporter($full_name, $phone_number, $email, $password) {
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+
+        $sql = "INSERT INTO users 
+                (full_name, phone_number, email, password_hash, role, is_verified, is_deleted) 
+                VALUES 
+                (:full_name, :phone_number, :email, :password_hash, 'TRANSPORTER', 0, 0)";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':full_name'    => $full_name,
+            ':phone_number' => $phone_number,
+            ':email'        => $email,
+            ':password_hash'=> $hash
+        ]);
+    }
+
+    // ---- LOGIN TRANSPORTER ----
+    public function loginTransporter($email, $password) {
+        $sql = "SELECT * FROM users WHERE email = :email AND role = 'TRANSPORTER' AND is_deleted = 0";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password_hash'])) {
+            return $user;
+        }
+
+        return false;
+    }
 }

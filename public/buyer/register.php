@@ -18,7 +18,7 @@ include '../../includes/header.php';
 <section class="pt-80 pb-80">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h2 class="mb-4 text-center">Buyer Registration</h2>
 
                 <?php if (!empty($auth->error)): ?>
@@ -28,27 +28,31 @@ include '../../includes/header.php';
                 <?php endif; ?>
 
                 <form method="post" action="">
-                    <div class="mb-3">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" name="full_name" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" name="full_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone_number" class="form-control" required>
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Phone Number</label>
-                        <input type="text" name="phone_number" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
+                        <label class="form-label">Email *</label>
                         <input type="email" name="email" class="form-control" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Password *</label>
+                            <input type="password" name="password" class="form-control" required minlength="6">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Confirm Password *</label>
+                            <input type="password" name="confirm_password" class="form-control" required minlength="6">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Confirm Password</label>
-                        <input type="password" name="confirm_password" class="form-control" required>
-                    </div>
-                    <button type="submit" class="theme-btn style-one w-100">Register</button>
+                    <button type="submit" class="theme-btn style-one w-100">Register as Buyer</button>
                 </form>
 
                 <p class="mt-3 text-center">
@@ -60,5 +64,3 @@ include '../../includes/header.php';
 </section>
 
 <?php include '../../includes/footer.php'; ?>
-
-
