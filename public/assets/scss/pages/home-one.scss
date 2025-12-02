@@ -1,0 +1,775 @@
+
+
+
+@import "../abstract";
+
+
+/* Agricko Hero Section */ 
+
+.agricko-hero{
+    & .single-slider{
+        padding: 200px 0 320px;
+        position: relative;
+        z-index: 1;
+        @include respond(md){
+            padding: 120px 0 240px;
+        }
+        & .image-layer{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: all 1.4s cubic-bezier(0.7, 0, 0.3, 1);
+            @include transform(scale(1.2));
+            z-index: -1;
+            &:after{
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: '';
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, rgba(0, 76, 29, 0.80) 0.13%, rgba(0, 76, 29, 0.30) 52.05%, rgba(0, 76, 29, 0.80) 99.83%);
+                z-index: -1;
+            }
+        }
+        &.slick-current{
+            & .image-layer{
+                @include transform(scale(1));
+            }
+        }
+    }
+    & .hero-content{
+        position: relative;
+        & span.tag-line{
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            background-color: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(5px);
+            color: $white-color;
+            padding: 6px 20px;
+            line-height: 22px;
+            font-weight: 500;
+            margin-bottom: 27px;
+            & i{
+                color: $secondary-color;
+                margin-right: 10px;
+            }
+            @include respond(sm){
+                padding: 10px 10px 0;
+            }
+        }
+        & h1{
+            color: $white-color;
+            text-transform: capitalize;
+            margin-bottom: 30px;
+            font-family: $accent-font;
+            font-weight: 400;
+            font-size: 100px;
+            line-height: 125px;
+            & span{
+                color: $heading-color;
+                background-color: $secondary-color;
+                border-radius: 20px;
+                padding: 15px 10px 0;
+                line-height: .8;
+            }
+            @include respond(xl){
+                font-size: 70px;
+                line-height: 85px;
+            }
+            @include respond(md){
+                font-size: 40px;
+                line-height: 55px;
+            }
+        }
+        & .hero-button{
+            & .theme-btn{
+                &:last-child{
+                    padding: 18px 50px;
+                    margin-left: 15px;
+                    background-color: $white-color;
+                    color: $heading-color;
+                    @include respond(sm){
+                        margin-left: 6px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Features Section CSS */ 
+
+.agricko-features-wrapper{
+    position: relative;
+    z-index: 2;
+    background-color: $gray-color;
+    border-radius: 20px;
+    margin-top: -120px;
+    & .item-column{
+        &:not(:last-child){
+            border-right: 1px solid #DDD;
+            @include respond(xl){
+                border-right: none;
+            }
+        }
+        &:nth-child(1),
+        &:nth-child(3){
+            @include respond(xl){
+                border-right: 1px solid #DDD;
+            }
+            @include respond(md){
+                border-right:none;
+            }
+        }
+    }
+}
+
+.agricko-feature-item{
+    padding: 40px 40px 32px;
+    text-align: center;
+    & .icon{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid $primary-color;
+        background-color: $secondary-color;
+        color: $white-color;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        color: $heading-color;
+        font-size: 40px;
+    }
+}
+
+/* About Section CSS */ 
+
+.agricko-left-iconic-box{
+    display: flex;
+    align-items: center;
+    @include respond(sm){
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    & .icon{
+        flex: 0 0 auto;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(12, 119, 53, 0.10);
+        color: $primary-color;
+        font-size: 40px;
+        margin-right: 20px;
+        @include respond(sm){
+            margin-bottom: 30px;
+        }
+    }
+    & .content{
+        & h4{
+            margin-bottom: 6px;
+        }
+    }
+}
+.agricko-about-sec{
+    & .agricko-image-box{
+        position: relative;
+        & .agricko-image{
+            &.image-one{
+                text-align: left;
+                & img{
+                    border-radius: 10px;
+                }
+            }
+            &.image-two{
+                position: absolute;
+                bottom: 60px;
+                right: 30px;
+                & img{
+                    width: 100%;
+                    border-radius: 10px;
+                }
+                & .play-btn{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    & .video-popup{
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: $secondary-color;
+                        color: $heading-color;
+                    }
+                }
+                @include respond(md){
+                    position: relative;
+                    bottom: auto;
+                    right: auto;
+                    margin-top: 30px;
+                }
+            }
+        }
+        & .border-shape{
+            width: 185px;
+            height: 300px;
+            border: 7px solid $secondary-color;
+            position: absolute;
+            right: 80px;
+            top: 60px;
+            z-index: -1;
+        }
+        & .experience-box{
+            position: absolute;
+            top: 60px;
+            left: -35px;
+            padding: 30px 10px;
+            max-width: 180px;
+            text-align: center;
+            background-color: $primary-color;
+            &::after{
+                position: absolute;
+                bottom: -35px;
+                left: 0;
+                content: '';
+                width: 0;
+                height: 0;
+                border-top: 35px solid $primary-color;
+                border-left: 35px solid transparent;
+            }
+            & i{
+                font-size: 50px;
+                color: $white-color;
+            }
+            & h4{
+                color: $white-color;
+                & span{
+                    font-size: 16px;
+                    line-height: 25px;
+                }
+            }
+            @include respond(md){
+                display: none;
+            }
+        }
+    }
+    & .agricko-content-box{
+        & .iconic-box-list{
+            & .agricko-left-iconic-box{
+                &:not(:last-child){
+                    margin-bottom: 30px;
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid #ddd;
+                }
+            }
+        }
+        & .agricko-button-wrap{
+            display: flex;
+            align-items: center;
+            @include respond(sm){
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            & .support-box{
+                margin-left: 40px;
+                display: flex;
+                align-items: center;
+                @include respond(sm){
+                    margin-top: 30px;
+                    margin-left: 0;
+                }
+                & .icon{
+                    flex: 0 0 auto;
+                    margin-right: 15px;
+                    font-size: 50px;
+                    color: $white-color;
+                    color: $heading-color;
+                }
+            }
+        }
+    }
+}
+
+/* Service Section CSS */
+
+.agricko-service-item{
+    &:hover{
+        & .thumbnail{
+            & .hover-overlay{
+                opacity: 1;
+                visibility: visible;
+            }
+            & .hover-content-wrap{
+                background-color: $primary-black-color;
+                & .icon-btn{
+                    background-color: $primary-color;
+                    & i{
+                        transform: rotate(0deg);
+                    }
+                }
+            }
+        }
+    }
+    & .thumbnail{
+        position: relative;
+        z-index: 1;
+        & img{
+            width: 100%;
+        }
+        & .hover-overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.40);
+            visibility: hidden;
+            opacity: 0;
+            transition: all .3s;
+        }
+        & .hover-content-wrap{
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: calc(100% - 10%);
+            background-color: $primary-color;
+            border-radius: 0 60px 60px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 10px 10px 30px;
+            @include respond(lg){
+                width: 95%;
+            }
+            & .content{
+                padding-right: 10px;
+                & h4{
+                    color: $white-color;
+                    & a{
+                        color: $white-color;
+                    }
+                    @include respond(xxxl){
+                        font-size: 20px;
+                        line-height: 30px;
+                    }
+                }
+                & a{
+                    color: rgba(255, 255, 255, 0.80);
+                }
+            }
+            & .icon-btn{
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background-color: $primary-black-color;
+                color: $white-color;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+                & i{
+                    transform: rotate(-45deg);
+                    transition: all .3s;
+                }
+                @include respond(lg){
+                    width: 50px;
+                    height: 50px;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
+/* Choose Section CSS */ 
+
+.agricko-choose-sec{
+    position: relative;
+    z-index: 1;
+    background-color: $primary-black-color;
+    overflow: hidden;
+    & .bottom-img{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+        width: 100%;
+        height: auto;
+        z-index: -1;
+    }
+}
+.agricko-choose-item{
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background-color: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    padding: 30px 30px 25px;
+    @include respond(xxxl){
+       padding: 30px 20px 25px;
+    }
+    & .icon{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        font-size: 40px;
+        color: $white-color;
+        margin-bottom: 20px;
+    }
+    & .content{
+        & h4{
+            color: $white-color;
+            margin-bottom: 13px;
+        }
+        & p{
+            color: rgba(255, 255, 255, 0.80);
+        }
+    }
+}
+
+
+/* Intro Section CSS */ 
+
+.agricko-intro-sec{
+    position: relative;
+    z-index: 1;
+    &:before{
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.90) 0.25%, rgba(0, 0, 0, 0.54) 47.04%, rgba(0, 0, 0, 0.90) 99.8%);
+        z-index: -1;
+    }
+    & .agricko-play-box{
+        & .video-popup{
+            position: relative;
+            width: 90px;
+            height: 90px;
+            border: 1px solid $border-color;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            background-color: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(5px);
+            color: $white-color;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            &:before,
+            &:after{
+                position: absolute;
+                left: 0;
+                top: 0;
+                content: "";
+                border-radius: 50%;
+                width: 100%;
+                height: 100%;
+                border: 1px solid $white-color;
+            }
+            &:after{
+                animation: playpopup infinite ease-in 2s;
+            }
+            &:before{
+                animation: playpopup infinite ease-in-out 4s;
+            }
+        }
+    }
+}
+
+.agricko-team-item{
+    &:hover{
+        & .member-image{
+            & .hover-content{
+                & .social-box{
+                    right: 20px;
+                }
+                & .member-info{
+                    background-color: $primary-black-color;
+                }
+            }
+        }
+    }
+    & .member-image{
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        & img{
+            width: 100%;
+            border-radius: 10px;
+        }
+        & .hover-content{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            & .social-box{
+                position: absolute;
+                right: -40%;
+                top: 30px;
+                padding: 15px 10px;
+                text-align: center;
+                background-color: $primary-black-color;
+                transition: all .3s;
+                & a{
+                    display: block;
+                    color: $white-color;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    &:not(:last-child){
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+            & .member-info{
+                width: 100%;
+                padding: 20px 30px;
+                background-color: $primary-color;
+                text-align: center;
+                transition: all .3s;
+                & h4{
+                    color: $white-color;
+                }
+                & .position{
+                    color: rgba(255, 255, 255, 0.80);
+                }
+            }
+        }
+    }
+}
+
+
+/* Testimonial Section CSS */ 
+
+.agricko-testimonial-item{
+    & .testimonial-inner-wrap{
+        background-color: $gray-color;
+        display: flex;
+        align-items: center;
+        padding: 30px;
+        & .thumbnail{
+            max-width: 290px;
+            flex: 0 0 auto;
+            margin-right: 60px;
+            @include respond(lg){
+                display: none;
+            }
+            & img{
+                border-radius: 5px;
+            }
+        }
+        & .testimonial-content{
+            & .ratings{
+                margin-bottom: 22px;
+                & i{
+                    color: $secondary-color;
+                }
+            }
+            & p{
+                font-size: 18px;
+                line-height: 34px;
+                font-weight: 500;
+                margin-bottom: 27px;
+                @include respond(xl){
+                    font-size: 16px;
+                    line-height: 28px;
+                    margin-bottom: 20px;
+                }
+            }
+            & .author-info{
+                & h5{
+                    font-size: 22px;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+    }
+}
+
+/* Faq Page CSS */ 
+
+.agricko-faq-sec{
+    & .agricko-image{
+        & img{
+            border-radius: 10px;
+        }
+    }
+}
+
+.accordion-card{
+    background-color: $gray-color;
+    border-radius: 40px;
+    border: 1px solid $border-color;
+    & .accordion-header{
+        & .accordion-title{
+            padding: 10px 30px 10px 10px;
+            line-height: 25px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 5px;
+            @include respond(md){
+                font-size: 16px;
+            }
+            &:after{
+                flex: 0 0 auto;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                content: '\f106';
+                font-family: 'Font Awesome 5 Pro';
+                font-weight: 400;
+                font-size: 18px;
+                line-height: 25px;
+                color: $primary-color;
+                margin-left: auto;
+                transition: all .3s;
+            }
+            & .icon-btn{
+                flex: 0 0 auto;
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                margin-right: 15px;
+                font-size: 14px;
+                background-color: $primary-black-color;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: $white-color;
+                & i{
+                    transform: rotate(-45deg);
+                    transition: all .34s;
+                }
+            }
+        }
+        & .accordion-title[aria-expanded=true]{
+            background-color: $primary-black-color;
+            color: $white-color;
+            border-radius: 40px;
+            & .icon-btn{
+                background-color: $primary-color;
+                & i{
+                    transform: rotate(0);
+                }
+            }
+            &:after{
+                content: '\f107';
+                color: $secondary-color;
+            }
+        }
+    }
+    & .accordion-content{
+        padding: 30px;
+        & p{
+            border-left: 2px solid $primary-black-color;
+            padding-left: 15px;
+            line-height: 25px;
+        }
+    }
+}
+
+
+
+/* Contact Section CSS */
+
+.agricko-contact-sec{
+    & .agricko-image{
+        & img{
+            border-radius: 10px;
+        }
+    }
+}
+.contact-wrapper{
+    border-radius: 10px;
+    background-color: $gray-color;
+    padding: 40px 50px 50px;
+    @include respond(md){
+        padding: 20px 20px 30px;
+    }
+    & p{
+        margin-bottom: 40px;
+    }
+    &  label{
+        margin-bottom: 10px;
+        color: $heading-color;
+    }
+    & .form_control{
+        padding: 12px 20px;
+        border-radius: 5px;
+        border: 1px solid rgba(24, 39, 30, 0.20);
+        background-color: rgba(24, 39, 30, 0.10);
+        margin-bottom: 20px;
+        color: #454545;
+        &::placeholder{
+            color: #454545;
+        }
+    }
+}
+
+/* Blog Section CSS */
+
+.agricko-post-item{
+    & .post-thumbnail{
+        & img{
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+        }
+    }
+    & .post-content{
+        border: 1px solid $border-color;
+        border-top: none;
+        padding: 23px 30px 30px;
+        border-radius: 0 0 5px 5px;
+        & .post-meta{
+            & span{
+                margin-bottom: 10px;
+                &:not(:last-child){
+                    margin-right: 25px;
+                }
+                & i{
+                    margin-right: 10px;
+                }
+            }
+        }
+        & h4{
+            margin-bottom: 15px;
+            @include respond(lg){
+                font-size: 18px;
+                line-height: 30px;
+            }
+        }
+        & .icon-btn{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $primary-black-color;
+            color: $white-color;
+            & i{
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

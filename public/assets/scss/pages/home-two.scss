@@ -1,0 +1,754 @@
+
+
+@import "../abstract";
+
+/* Hero Section CSS */ 
+
+.agricko-hero{
+    position: relative;
+    z-index: 1;
+    background-color: #EEF9F4;
+    overflow: hidden;
+    @include respond(xl){
+        padding-top: 100px;
+    }
+    & .hero-shape-image{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: -2;
+    }
+    & .shape{
+        position: absolute;
+        z-index: -1;
+        @include respond(md){
+            display: none;
+        }
+        &.shape-one{
+           position: absolute;
+           bottom: 0;
+           left: 0; 
+        }
+        &.shape-two{
+            top: 25%;
+            left: 10%;
+            @include respond(xxxl){
+                top: 10%;
+                left: 10px;
+            }
+        }
+        &.shape-three{
+            top: 32%;
+            right: 42%;
+            @include respond(xl){
+                top: 40%;
+                right: 15%;
+            }
+        }
+        &.shape-four{
+            top: 90px;
+            right: 0;
+        }
+        &.shape-five{
+            bottom: 60px;
+            right: 60px;
+        }
+    }
+    & .hero-content{
+        & .tag-line{
+            background-color: #CDE4CE;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: $heading-color;
+            line-height: 1;
+            margin-bottom: 20px;
+            & i{
+                color: $primary-color;
+                margin-right: 8px;
+            }
+        }
+        & h1{
+            font-family: $accent-font;
+            font-size: 80px;
+            line-height: 100px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            @include respond(md){
+                font-size: 40px;
+                line-height: 55px;
+            }
+        }
+        & p{
+            max-width: 660px;
+            font-size: 18px;
+            line-height: 30px;
+            color: #454545;
+            margin-bottom: 45px;
+        }
+        & .hero-button{
+            & .theme-btn{
+                &:last-child{
+                    margin-left: 25px;
+                    background-color: $white-color;
+                    color: $heading-color;
+                }
+            }
+        }
+    }
+    & .hero-image{
+        margin-right: -130px;
+        @include respond(xxxl){
+            margin-right: -100px;
+        }
+        @include respond(xl){
+            margin-top: 50px;
+            margin-right: 0;
+            text-align: center;
+        }
+    }
+}
+
+/* Category Section CSS */ 
+
+.agricko-category-item{
+    text-align: center;
+    padding: 30px 30px 25px;
+    border-radius: 5px;
+    & .icon{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: $heading-color;
+        font-size: 34px;
+        margin-bottom: 10px;
+    }
+    & .content{
+        & h4{
+            margin-bottom: 5px;
+        }
+        & span{
+            font-weight: 500;
+        }
+    }
+    &.bg_one{
+        background-color: #FFF8EE;
+        & .icon{
+            background-color: #FFD28E;
+        }
+    }
+    &.bg_two{
+        background-color: #E3F8EE;
+        & .icon{
+            background-color: #8EE3BA;
+        }
+    }
+    &.bg_three{
+        background-color: #FBEFEF;
+        & .icon{
+            background-color: #F0BFBD;
+        }
+    }
+    &.bg_four{
+        background-color: #f2f6d2;
+        & .icon{
+            background-color: #b8c828;
+        }
+    }
+    &.bg_five{
+        background-color: #F2FBED;
+        & .icon{
+            background-color: #BCEAA6;
+        }
+    }
+    &.bg_six{
+        background-color: #F9F5FF;
+        & .icon{
+            background-color: #EEE2FF;
+        }
+    }
+}
+
+
+/* About Section CSS */
+
+.agricko-about-sec{
+    & .agricko-image-box{
+        position: relative;
+        z-index: 1;
+        & .agricko-image{
+            &.image_one{
+                padding-top: 20px;
+                & img{
+                    border-radius: 140px 0 0 0;
+                    @include respond(md){
+                        border-radius: 0;
+                    }
+                }
+            }
+            &.image_two{
+                position: absolute;
+                top: 0;
+                right: 0;
+                & img{
+                    border: 5px solid #FFF;
+                }
+                @include respond(md){
+                    position: relative;
+                    top: auto;
+                    right: auto;
+                    margin-top: 30px;
+                }
+            }
+        }
+        & .circle-image{
+            position: absolute;
+            bottom: -70px;
+            left: 20%;
+        }
+        & .shape-image{
+            position: absolute;
+            bottom: 0;
+            right: 60px;
+        }
+    }
+    & .agricko-content-box{
+        padding-left: 70px;
+        @include respond(xl){
+            padding-left: 0;
+        }
+        & > p{
+            margin-bottom: 25px;
+        }
+        & .agricko-image{
+            & img{
+                width: 100%;
+                border-radius: 7px;
+            }
+        }
+        & .check-list{
+            &.style-one{
+                & li{
+                    font-size: 18px;
+                    font-weight: 500;
+                    line-height: 34px;
+                    color: $heading-color;
+                    & i{
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        & .agricko-button-wrap{
+            display: flex;
+            align-items: center;
+            @include respond(sm){
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            & .author-info-box{
+                margin-left: 25px;
+                @include respond(sm){
+                    margin-left: 0;
+                    margin-top: 30px;
+                }
+            }
+        }
+    }
+}
+
+.agricko-left-iconic-box{
+    display: flex;
+    align-items: center;
+    & .icon{
+        flex: 0 0 auto;
+        font-size: 40px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: rgba(12, 119, 53, 0.10);
+        color: $primary-color;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+    }
+    & .content{
+        & h4{
+            margin-bottom: 10px;
+        }
+    }
+}
+.author-info-box{
+    display: flex;
+    align-items: center;
+    & .author-thumb{
+        flex: 0 0 auto;
+        width: 55px;
+        margin-right: 15px;
+        & img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+}
+
+
+/* Service Section CSS */ 
+
+.agricko-service-item{
+    &:hover{
+        & .thumbnail{
+            & .hover-overlay{
+                visibility: visible;
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+    }
+    & .thumbnail{
+        position: relative;
+        overflow: hidden;
+        & img{
+            border-radius: 5px;
+            width: 100%;
+        }
+        & .hover-overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(12, 119, 53, 0.50) 0%, rgba(12, 119, 53, 0.00) 100%);
+            visibility: hidden;
+            opacity: 0;
+            transform: scale(1);
+            transition: all .3s;
+        }
+        & .hover-content{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 30px;
+            & .content{
+                text-align: center;
+                width: 100%;
+                & span{
+                    padding: 10px 20px;
+                    background-color: $primary-black-color;
+                    color: $white-color;
+                    border-radius: 5px 5px 0 0;
+                    width: 60%;
+                    margin: 0 auto;
+                }
+                & h4{
+                    background-color: $white-color;
+                    padding: 20px 30px;
+                    border-radius: 5px;
+                    @include respond(xl){
+                        padding: 10px 20px;
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Shop Section CSS */ 
+
+.agricko-shop-sec{
+    background-color: #FBFBF7;
+}
+.agricko-product-item{
+    background-color: $white-color;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    &:hover{
+        & .product-thumbnail{
+            & .action-button{
+                bottom: 30px;
+                visibility: visible;
+                opacity: 1;
+                transition: all .35s;
+            }
+        }
+    }
+    & .product-thumbnail{
+        position: relative;
+        z-index: 1;
+        & img{
+            width: 100%;
+        }
+        & .new{
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 5px;
+            background-color: $primary-color;
+            color: $white-color;
+            padding: 6px 15px;
+            line-height: 1;
+        }
+        & .action-button{
+            position: absolute;
+            bottom: 90px;
+            left: 50%;
+            width: 100%;
+            transform: translateX(-50%);
+            visibility: hidden;
+            opacity: 0;
+            & .icon-btn{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: $white-color;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 6px;
+                margin-right: 6px;
+            }
+        }
+    }
+    & .product-info{
+        padding-top: 20px;
+        & .price{
+            font-weight: 500;
+            color: $primary-color;
+            & .prev-price{
+                color: $heading-color;
+                text-decoration: line-through;
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+
+/* Offer Section CSS */ 
+
+.agricko-offer-item{
+    padding: 30px;
+    border-radius: 5px;
+    @include respond(md){
+        padding: 20px 15px;
+    }
+    & .agricko-inner-content{
+        position: relative;
+        overflow: hidden;
+        padding: 40px;
+        border: 4px solid $white-color;
+        & .offer-img{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            @include respond(xl){
+                display: none;
+            }
+        }
+    }
+    & .content{
+        & span{
+            font-size: 18px;
+            font-weight: 500;
+            color: $heading-color;
+        }
+        & h3{
+            font-size: 40px;
+            line-height: 50px;
+            & span{
+                font-size: 40px;
+                line-height: 50px;
+                font-family: $accent-font;
+            }
+            @include respond(md){
+                font-size: 20px;
+                line-height: 30px;
+            }
+        }
+        & p{
+            margin-bottom: 25px;
+        }
+        & .order-btn{
+            background-color: $primary-black-color;
+            color: $white-color;
+            padding: 13px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+    }
+    &.bg_one{
+        background-color: #DDF3E8;
+    }
+    &.bg_two{
+        background-color: #FFD28E;
+    }
+}
+
+/* Choose Section CSS */ 
+
+.agricko-choose-sec{
+    & .agricko-content-box{
+        padding-right: 80px;
+        @include respond(xl){
+            padding-right: 0;
+        }
+    }
+    & .agricko-iconic-list{
+        @include respond(xl){
+            margin-top: 60px;
+        }
+        & .iconic-list-area{
+            &:first-child{
+                margin-left: -60px;
+                padding-right: 60px;
+                @include respond(lg){
+                    padding-right: 0;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+.agricko-iconic-text-box{
+    backdrop-filter: blur(5px);
+    background-color: $white-color;
+    border-radius: 5px;
+    border: 1px solid rgba(37, 37, 37, 0.30);
+    padding: 30px;
+    transition: all .3s;
+    @include respond(xl){
+        padding: 30px 40px;
+    }
+    &:hover{
+        background-color: $primary-black-color;
+        & .content{
+            & h4{
+                color: $white-color;
+                & i{
+                    color: $white-color;
+                }
+            }
+            & p{
+                color: $white-color;
+            }
+        }
+    }
+    & .content{
+        & h4{
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 15px;
+            & i{
+                flex: 0 0 30px;
+                margin-right: 15px;
+                font-size: 30px;
+                color: $heading-color;
+            }
+        }
+    }
+}
+
+/* Team Section CSS */
+
+.agricko-team-item{
+    &:hover{
+        & .member-image{
+            & .social-box{
+                right: 30px;
+            }
+        }
+    }
+    & .member-image{
+        position: relative;
+        overflow: hidden;
+        & img{
+            width: 100%;
+            border-radius: 5px;
+        }
+        & .hover-content{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 30px;
+        }
+        & .member-info{
+            & .position{
+                background-color: $secondary-color;
+                color: $heading-color;
+                font-weight: 500;
+                padding: 7px 30px;
+            }
+            & h4{
+                background-color: $primary-black-color;
+                color: $white-color;
+                padding: 7px 30px;
+            }
+        }
+        & .social-box{
+            position: absolute;
+            right: -50%;
+            top: 30px;
+            transition: all .3s;
+            & a{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: $white-color;
+                color: $heading-color;
+                &:not(:last-child){
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+/* Counter Section CSS */
+
+.counter-wrapper{
+    background-color: $secondary-color;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: -90px;
+    & .counter-inner-wrap{
+        padding: 40px 60px 10px;
+        border-top: 2px dashed $heading-color;
+        border-bottom: 2px dashed $heading-color;
+        @include respond(md){
+            padding: 40px 20px 10px;
+        }
+    }
+}
+
+.agricko-counter-item{
+    display: flex;
+    align-items: center;
+    & .icon{
+        flex: 0 0 auto;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: $heading-color;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: $white-color;
+        font-size: 30px;
+        margin-right: 20px;
+    }
+    & .content{
+        & h2{
+            font-size: 40px;
+            line-height: 55px;
+        }
+    }
+}
+
+/* Testimonial Section CSS */
+
+.testimonial-slider{
+    margin-left: -15px;
+    margin-right: -15px;
+    @include respond(lg){
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+    & .slick-slide{
+        margin-left: 15px;
+        margin-right: 15px;
+        @include respond(lg){
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+    }
+}
+.agricko-testimonial-item{
+    background-color: $white-color;
+    padding: 35px 40px 40px;
+    border-radius: 5px;
+    & .testimonial-content{
+        & .ratings{
+            margin-bottom: 26px;
+            & i{
+                color: $secondary-color;
+            }
+        }
+        & p{
+            font-size: 18px;
+            line-height: 34px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+    }
+} 
+
+
+/* Blog Section CSS */ 
+
+.agricko-post-item{
+    & .post-thumbnail{
+        position: relative;
+        & img{
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+        }
+        & .category-btn{
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 11px 25px;
+            color: $heading-color;
+            line-height: 1;
+            font-weight: 500;
+            border-radius: 30px;
+            background-color: $secondary-color;
+        }
+    }
+    & .post-content{
+        border: 1px solid $border-color;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        padding: 30px;
+        & .post-meta{
+            & span{
+                margin-bottom: 10px;
+                &:not(:last-child){
+                    margin-right: 25px;
+                }
+                & i{
+                    margin-right: 10px;
+                }
+            }
+        }
+        & h4{
+            margin-bottom: 25px;
+            @include respond(lg){
+                font-size: 18px;
+                line-height: 30px;
+            }
+        }
+    }
+}

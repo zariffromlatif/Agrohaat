@@ -1,0 +1,39 @@
+
+/*----------------------------------------------------------------------------------- 
+
+Template Name: Agricko - Agriculture Farming HTML Template
+URI: pixelfit.agency
+Description: Agricko is a clean, modern, and fully responsive HTML template specially designed for agriculture, organic farming, eco-friendly products, and related rural business websites. Whether you’re running a dairy farm, vegetable farm, poultry, or a community-supported agriculture project – Agricko provides a perfect foundation for your online presence.
+Author: Pixelfit
+Author URI: https://themeforest.net/user/pixelfit
+Version: 1.0 
+
+------------------------------------------------------
+   CSS INDEX
+------------------------------------------------------
+
+    # Components
+        # Base CSS
+        # Common CSS
+        # Preloader CSS
+        # Offcanvas CSS
+        # Animation CSS
+        # Button CSS
+        # Header CSS
+        # Footer CSS
+----------------------------------------------------*/
+
+
+// Abstract
+
+@import "abstract";
+
+// Components
+@import 'components/base';
+@import 'components/common';
+@import 'components/preloader';
+@import 'components/Offcanvas';
+@import 'components/animations';
+@import 'components/buttons';
+@import 'components/header';
+@import 'components/footer';

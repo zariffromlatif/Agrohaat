@@ -1,0 +1,205 @@
+$flaticon_agricko-font: "flaticon_agricko";
+
+@font-face {
+    font-family: $flaticon_agricko-font;
+    src: url("./flaticon_agricko.woff2?4fd295adcbe04e40825b2b95b61d88d7") format("woff2"),
+url("./flaticon_agricko.woff?4fd295adcbe04e40825b2b95b61d88d7") format("woff"),
+url("./flaticon_agricko.eot?4fd295adcbe04e40825b2b95b61d88d7#iefix") format("embedded-opentype"),
+url("./flaticon_agricko.ttf?4fd295adcbe04e40825b2b95b61d88d7") format("truetype"),
+url("./flaticon_agricko.svg?4fd295adcbe04e40825b2b95b61d88d7#flaticon_agricko") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_agricko !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon_agricko-map: (
+    "idea": "\f101",
+    "play": "\f102",
+    "search": "\f103",
+    "shopping-bag": "\f104",
+    "phone-call": "\f105",
+    "tractor": "\f106",
+    "organic": "\f107",
+    "medal": "\f108",
+    "eco-friendly": "\f109",
+    "leaves": "\f10a",
+    "tea-leaf": "\f10b",
+    "pin-map": "\f10c",
+    "email": "\f10d",
+    "palms": "\f10e",
+    "moving": "\f10f",
+    "question": "\f110",
+    "star": "\f111",
+    "like": "\f112",
+    "person": "\f113",
+    "message": "\f114",
+    "fast-food": "\f115",
+    "salad": "\f116",
+    "orange-juice": "\f117",
+    "poi": "\f118",
+    "fish": "\f119",
+    "check": "\f11a",
+    "carrot": "\f11b",
+    "plus": "\f11c",
+    "salad-1": "\f11d",
+    "loading": "\f11e",
+    "tools": "\f11f",
+    "package": "\f120",
+    "security": "\f121",
+    "save-water": "\f122",
+    "soil-analysis": "\f123",
+    "shopping-cart": "\f124",
+    "heart": "\f125",
+    "view": "\f126",
+    "organic-food": "\f127",
+    "leaves-1": "\f128",
+    "group": "\f129",
+    "user": "\f12a",
+    "trophy": "\f12b",
+    "hangouts": "\f12c",
+    "share": "\f12d",
+);
+
+.flaticon-idea:before {
+    content: map-get($flaticon_agricko-map, "idea");
+}
+.flaticon-play:before {
+    content: map-get($flaticon_agricko-map, "play");
+}
+.flaticon-search:before {
+    content: map-get($flaticon_agricko-map, "search");
+}
+.flaticon-shopping-bag:before {
+    content: map-get($flaticon_agricko-map, "shopping-bag");
+}
+.flaticon-phone-call:before {
+    content: map-get($flaticon_agricko-map, "phone-call");
+}
+.flaticon-tractor:before {
+    content: map-get($flaticon_agricko-map, "tractor");
+}
+.flaticon-organic:before {
+    content: map-get($flaticon_agricko-map, "organic");
+}
+.flaticon-medal:before {
+    content: map-get($flaticon_agricko-map, "medal");
+}
+.flaticon-eco-friendly:before {
+    content: map-get($flaticon_agricko-map, "eco-friendly");
+}
+.flaticon-leaves:before {
+    content: map-get($flaticon_agricko-map, "leaves");
+}
+.flaticon-tea-leaf:before {
+    content: map-get($flaticon_agricko-map, "tea-leaf");
+}
+.flaticon-pin-map:before {
+    content: map-get($flaticon_agricko-map, "pin-map");
+}
+.flaticon-email:before {
+    content: map-get($flaticon_agricko-map, "email");
+}
+.flaticon-palms:before {
+    content: map-get($flaticon_agricko-map, "palms");
+}
+.flaticon-moving:before {
+    content: map-get($flaticon_agricko-map, "moving");
+}
+.flaticon-question:before {
+    content: map-get($flaticon_agricko-map, "question");
+}
+.flaticon-star:before {
+    content: map-get($flaticon_agricko-map, "star");
+}
+.flaticon-like:before {
+    content: map-get($flaticon_agricko-map, "like");
+}
+.flaticon-person:before {
+    content: map-get($flaticon_agricko-map, "person");
+}
+.flaticon-message:before {
+    content: map-get($flaticon_agricko-map, "message");
+}
+.flaticon-fast-food:before {
+    content: map-get($flaticon_agricko-map, "fast-food");
+}
+.flaticon-salad:before {
+    content: map-get($flaticon_agricko-map, "salad");
+}
+.flaticon-orange-juice:before {
+    content: map-get($flaticon_agricko-map, "orange-juice");
+}
+.flaticon-poi:before {
+    content: map-get($flaticon_agricko-map, "poi");
+}
+.flaticon-fish:before {
+    content: map-get($flaticon_agricko-map, "fish");
+}
+.flaticon-check:before {
+    content: map-get($flaticon_agricko-map, "check");
+}
+.flaticon-carrot:before {
+    content: map-get($flaticon_agricko-map, "carrot");
+}
+.flaticon-plus:before {
+    content: map-get($flaticon_agricko-map, "plus");
+}
+.flaticon-salad-1:before {
+    content: map-get($flaticon_agricko-map, "salad-1");
+}
+.flaticon-loading:before {
+    content: map-get($flaticon_agricko-map, "loading");
+}
+.flaticon-tools:before {
+    content: map-get($flaticon_agricko-map, "tools");
+}
+.flaticon-package:before {
+    content: map-get($flaticon_agricko-map, "package");
+}
+.flaticon-security:before {
+    content: map-get($flaticon_agricko-map, "security");
+}
+.flaticon-save-water:before {
+    content: map-get($flaticon_agricko-map, "save-water");
+}
+.flaticon-soil-analysis:before {
+    content: map-get($flaticon_agricko-map, "soil-analysis");
+}
+.flaticon-shopping-cart:before {
+    content: map-get($flaticon_agricko-map, "shopping-cart");
+}
+.flaticon-heart:before {
+    content: map-get($flaticon_agricko-map, "heart");
+}
+.flaticon-view:before {
+    content: map-get($flaticon_agricko-map, "view");
+}
+.flaticon-organic-food:before {
+    content: map-get($flaticon_agricko-map, "organic-food");
+}
+.flaticon-leaves-1:before {
+    content: map-get($flaticon_agricko-map, "leaves-1");
+}
+.flaticon-group:before {
+    content: map-get($flaticon_agricko-map, "group");
+}
+.flaticon-user:before {
+    content: map-get($flaticon_agricko-map, "user");
+}
+.flaticon-trophy:before {
+    content: map-get($flaticon_agricko-map, "trophy");
+}
+.flaticon-hangouts:before {
+    content: map-get($flaticon_agricko-map, "hangouts");
+}
+.flaticon-share:before {
+    content: map-get($flaticon_agricko-map, "share");
+}

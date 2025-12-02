@@ -1,0 +1,261 @@
+
+
+@use "./../abstract";
+
+
+.footer-widget{
+    & h4.widget-title{
+        color: $white-color;
+        margin-bottom: 25px;
+    }
+    & .widget-content{
+        & > p{
+            color: rgba(255, 255, 255, 0.80);
+            margin-bottom: 25px;
+        }
+        & .social-box{
+            & a{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                &:not(:last-child){
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}
+
+.footer-nav-widget{
+    & .widget-content{
+        & .widget-nav{
+            & li{
+                &:not(:last-child){
+                    margin-bottom: 15px;
+                }
+                color: $white-color;
+            }
+        }
+    }
+}
+
+.footer-contact-info-widget{
+    & .widget-content{
+        & .agricko-info-box{
+            display: flex;
+            align-items: center;
+            & .icon{
+                flex: 0 0 auto;
+                width: 44px;
+                height: 44px;
+                border: 1px dashed rgba(255, 255, 255, 0.20);
+                background-color: rgba(255, 255, 255, 0.10);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(5px);
+                border-radius: 50%;
+                color: $white-color;
+                margin-right: 20px;
+            }
+            & .content{
+                & span{
+                    color: $white-color;
+                    font-weight: 600;
+                }
+                & p{
+                    color: rgba(255, 255, 255, 0.80);
+                    line-height: 20px;
+                }
+            }
+        }
+    }
+}
+
+.footer-recent-post-widget{
+    & .recent-post-item{
+        display: flex;
+        align-items: center;
+        &:not(:last-child){
+            margin-bottom: 30px;
+        }
+        & .thumbnail{
+            flex: 0 0 auto;
+            width: 80px;
+            margin-right: 15px;
+            & img{
+                border-radius: 5px;
+            }
+        }
+        & .content{
+            & span{
+                font-size: 14px;
+                color: $secondary-color;
+            }
+            & h6{
+                color: $white-color;
+            }
+        }
+    }
+}
+
+.copyright-area{
+    padding: 20px 0;
+    & .copyright-text{
+        @include respond(md){
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    }
+    & .copyright-link{
+        @include respond(md){
+            text-align: center;
+        }
+        & a{
+            &:not(:last-child){
+                &:after{
+                    display: inline-flex;
+                    content: '';
+                    width: 7px;
+                    height: 7px;
+                    background-color: $secondary-color;
+                    margin-left: 25px;
+                    margin-right: 25px;
+                    @include respond(lg){
+                        margin-left: 15px;
+                        margin-right: 15px;
+                    }
+                }
+            }
+            &:hover{
+                color: $primary-color;
+            }
+        }
+    }
+}
+
+.footer-newsletter{
+    background-color: $secondary-color;
+    border-radius: 5px;
+    padding: 10px;
+    & .newsletter-inner-wrap{
+        padding: 35px 60px 40px;
+        border-top: 2px dashed $heading-color;
+        border-bottom: 2px dashed $heading-color;
+        @include respond(lg){
+            padding: 35px 20px 40px;
+        }
+    }
+    & .section-title{
+        & h3{
+            font-size: 32px;
+            line-height: 45px;
+            @include respond(xl){
+                font-size: 22px;
+                line-height: 30px;
+            }
+        }
+        @include respond(lg){
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    }
+    & .newsletter-form{
+        & .form-group{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            @include respond(lg){
+                justify-content: center;
+            }
+            @include respond(md){
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        & .form_control{
+            max-width: 300px;
+            width: 100%;
+            background-color: $white-color;
+            padding: 15px 22px;
+            line-height: 1;
+            border: none;
+            font-size: 18px;
+            font-weight: 500;
+            color: #454545;
+            border-radius: 10px 0 0 10px;
+            &::placeholder{
+                color: #454545;
+            }
+            @include respond(md){
+                border-radius: 10px;
+            }
+        }
+        & .submit-btn{
+            padding: 18px 35px;
+            line-height: 17px;
+            background-color: $primary-color;
+            color: $white-color;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 0 10px 10px 0;
+            @include respond(md){
+                border-radius: 10px;
+                margin-top: 20px;
+            }
+        }
+    }
+}
+
+/* Footer CSS */ 
+.footer-one{
+    padding-top: 100px;
+}
+.default-footer{
+    position: relative;
+    background-color: $heading-color;
+    & .footer-newsletter{
+        position: relative;
+        z-index: 1;
+        margin-top: -200px;
+    }
+    & .footer-widget{
+        & h4.widget-title{
+            color: $white-color;
+        }
+        & .widget-content{
+            & p{
+                color: rgba(255, 255, 255, 0.80);
+            }
+            & .social-box{
+                & a{
+                    border: 1px solid $white-color;
+                    color: $white-color;
+                    &:hover{
+                        background-color: $primary-color;
+                        border-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+    & .copyright-area{
+        background-color: $black-dark-color;
+        & .copyright-text{
+            & p{
+                color: $white-color;
+            }
+        }
+        & .copyright-link{
+            & a{
+                color: $white-color;
+                &:hover{
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+}

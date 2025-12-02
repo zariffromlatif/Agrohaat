@@ -1,0 +1,878 @@
+/* Agricko Hero Section */
+.agricko-hero .single-slider {
+  padding: 200px 0 320px;
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 767.98px) {
+  .agricko-hero .single-slider {
+    padding: 120px 0 240px;
+  }
+}
+.agricko-hero .single-slider .image-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 1.4s cubic-bezier(0.7, 0, 0.3, 1);
+  transition: all 1.4s cubic-bezier(0.7, 0, 0.3, 1);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  z-index: -1;
+}
+.agricko-hero .single-slider .image-layer:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: -webkit-gradient(linear, left top, right top, color-stop(0.13%, rgba(0, 76, 29, 0.8)), color-stop(52.05%, rgba(0, 76, 29, 0.3)), color-stop(99.83%, rgba(0, 76, 29, 0.8)));
+  background: linear-gradient(90deg, rgba(0, 76, 29, 0.8) 0.13%, rgba(0, 76, 29, 0.3) 52.05%, rgba(0, 76, 29, 0.8) 99.83%);
+  z-index: -1;
+}
+.agricko-hero .single-slider.slick-current .image-layer {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.agricko-hero .hero-content {
+  position: relative;
+}
+.agricko-hero .hero-content span.tag-line {
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  color: var(--white-color);
+  padding: 6px 20px;
+  line-height: 22px;
+  font-weight: 500;
+  margin-bottom: 27px;
+}
+.agricko-hero .hero-content span.tag-line i {
+  color: var(--secondary-color);
+  margin-right: 10px;
+}
+@media (max-width: 575.98px) {
+  .agricko-hero .hero-content span.tag-line {
+    padding: 10px 10px 0;
+  }
+}
+.agricko-hero .hero-content h1 {
+  color: var(--white-color);
+  text-transform: capitalize;
+  margin-bottom: 30px;
+  font-family: var(--accent-font);
+  font-weight: 400;
+  font-size: 100px;
+  line-height: 125px;
+}
+.agricko-hero .hero-content h1 span {
+  color: var(--heading-color);
+  background-color: var(--secondary-color);
+  border-radius: 20px;
+  padding: 15px 10px 0;
+  line-height: 0.8;
+}
+@media screen and (max-width: 1199.98px) {
+  .agricko-hero .hero-content h1 {
+    font-size: 70px;
+    line-height: 85px;
+  }
+}
+@media (max-width: 767.98px) {
+  .agricko-hero .hero-content h1 {
+    font-size: 40px;
+    line-height: 55px;
+  }
+}
+.agricko-hero .hero-content .hero-button .theme-btn:last-child {
+  padding: 18px 50px;
+  margin-left: 15px;
+  background-color: var(--white-color);
+  color: var(--heading-color);
+}
+@media (max-width: 575.98px) {
+  .agricko-hero .hero-content .hero-button .theme-btn:last-child {
+    margin-left: 6px;
+  }
+}
+
+/* Features Section CSS */
+.agricko-features-wrapper {
+  position: relative;
+  z-index: 2;
+  background-color: var(--gray-color);
+  border-radius: 20px;
+  margin-top: -120px;
+}
+.agricko-features-wrapper .item-column:not(:last-child) {
+  border-right: 1px solid #DDD;
+}
+@media screen and (max-width: 1199.98px) {
+  .agricko-features-wrapper .item-column:not(:last-child) {
+    border-right: none;
+  }
+}
+@media screen and (max-width: 1199.98px) {
+  .agricko-features-wrapper .item-column:nth-child(1), .agricko-features-wrapper .item-column:nth-child(3) {
+    border-right: 1px solid #DDD;
+  }
+}
+@media (max-width: 767.98px) {
+  .agricko-features-wrapper .item-column:nth-child(1), .agricko-features-wrapper .item-column:nth-child(3) {
+    border-right: none;
+  }
+}
+
+.agricko-feature-item {
+  padding: 40px 40px 32px;
+  text-align: center;
+}
+.agricko-feature-item .icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 20px;
+  color: var(--heading-color);
+  font-size: 40px;
+}
+
+/* About Section CSS */
+.agricko-left-iconic-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+@media (max-width: 575.98px) {
+  .agricko-left-iconic-box {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+}
+.agricko-left-iconic-box .icon {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: rgba(12, 119, 53, 0.1);
+  color: var(--primary-color);
+  font-size: 40px;
+  margin-right: 20px;
+}
+@media (max-width: 575.98px) {
+  .agricko-left-iconic-box .icon {
+    margin-bottom: 30px;
+  }
+}
+.agricko-left-iconic-box .content h4 {
+  margin-bottom: 6px;
+}
+
+.agricko-about-sec .agricko-image-box {
+  position: relative;
+}
+.agricko-about-sec .agricko-image-box .agricko-image.image-one {
+  text-align: left;
+}
+.agricko-about-sec .agricko-image-box .agricko-image.image-one img {
+  border-radius: 10px;
+}
+.agricko-about-sec .agricko-image-box .agricko-image.image-two {
+  position: absolute;
+  bottom: 60px;
+  right: 30px;
+}
+.agricko-about-sec .agricko-image-box .agricko-image.image-two img {
+  width: 100%;
+  border-radius: 10px;
+}
+.agricko-about-sec .agricko-image-box .agricko-image.image-two .play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.agricko-about-sec .agricko-image-box .agricko-image.image-two .play-btn .video-popup {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: var(--secondary-color);
+  color: var(--heading-color);
+}
+@media (max-width: 767.98px) {
+  .agricko-about-sec .agricko-image-box .agricko-image.image-two {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 30px;
+  }
+}
+.agricko-about-sec .agricko-image-box .border-shape {
+  width: 185px;
+  height: 300px;
+  border: 7px solid var(--secondary-color);
+  position: absolute;
+  right: 80px;
+  top: 60px;
+  z-index: -1;
+}
+.agricko-about-sec .agricko-image-box .experience-box {
+  position: absolute;
+  top: 60px;
+  left: -35px;
+  padding: 30px 10px;
+  max-width: 180px;
+  text-align: center;
+  background-color: var(--primary-color);
+}
+.agricko-about-sec .agricko-image-box .experience-box::after {
+  position: absolute;
+  bottom: -35px;
+  left: 0;
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 35px solid var(--primary-color);
+  border-left: 35px solid transparent;
+}
+.agricko-about-sec .agricko-image-box .experience-box i {
+  font-size: 50px;
+  color: var(--white-color);
+}
+.agricko-about-sec .agricko-image-box .experience-box h4 {
+  color: var(--white-color);
+}
+.agricko-about-sec .agricko-image-box .experience-box h4 span {
+  font-size: 16px;
+  line-height: 25px;
+}
+@media (max-width: 767.98px) {
+  .agricko-about-sec .agricko-image-box .experience-box {
+    display: none;
+  }
+}
+.agricko-about-sec .agricko-content-box .iconic-box-list .agricko-left-iconic-box:not(:last-child) {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+.agricko-about-sec .agricko-content-box .agricko-button-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+@media (max-width: 575.98px) {
+  .agricko-about-sec .agricko-content-box .agricko-button-wrap {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+}
+.agricko-about-sec .agricko-content-box .agricko-button-wrap .support-box {
+  margin-left: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+@media (max-width: 575.98px) {
+  .agricko-about-sec .agricko-content-box .agricko-button-wrap .support-box {
+    margin-top: 30px;
+    margin-left: 0;
+  }
+}
+.agricko-about-sec .agricko-content-box .agricko-button-wrap .support-box .icon {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin-right: 15px;
+  font-size: 50px;
+  color: var(--white-color);
+  color: var(--heading-color);
+}
+
+/* Service Section CSS */
+.agricko-service-item:hover .thumbnail .hover-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+.agricko-service-item:hover .thumbnail .hover-content-wrap {
+  background-color: var(--primary-black-color);
+}
+.agricko-service-item:hover .thumbnail .hover-content-wrap .icon-btn {
+  background-color: var(--primary-color);
+}
+.agricko-service-item:hover .thumbnail .hover-content-wrap .icon-btn i {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
+.agricko-service-item .thumbnail {
+  position: relative;
+  z-index: 1;
+}
+.agricko-service-item .thumbnail img {
+  width: 100%;
+}
+.agricko-service-item .thumbnail .hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.agricko-service-item .thumbnail .hover-content-wrap {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 90%;
+  background-color: var(--primary-color);
+  border-radius: 0 60px 60px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px 10px 10px 30px;
+}
+@media screen and (max-width: 991.98px) {
+  .agricko-service-item .thumbnail .hover-content-wrap {
+    width: 95%;
+  }
+}
+.agricko-service-item .thumbnail .hover-content-wrap .content {
+  padding-right: 10px;
+}
+.agricko-service-item .thumbnail .hover-content-wrap .content h4 {
+  color: var(--white-color);
+}
+.agricko-service-item .thumbnail .hover-content-wrap .content h4 a {
+  color: var(--white-color);
+}
+@media (max-width: 1650px) {
+  .agricko-service-item .thumbnail .hover-content-wrap .content h4 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+.agricko-service-item .thumbnail .hover-content-wrap .content a {
+  color: rgba(255, 255, 255, 0.8);
+}
+.agricko-service-item .thumbnail .hover-content-wrap .icon-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--primary-black-color);
+  color: var(--white-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 30px;
+}
+.agricko-service-item .thumbnail .hover-content-wrap .icon-btn i {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+@media screen and (max-width: 991.98px) {
+  .agricko-service-item .thumbnail .hover-content-wrap .icon-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
+/* Choose Section CSS */
+.agricko-choose-sec {
+  position: relative;
+  z-index: 1;
+  background-color: var(--primary-black-color);
+  overflow: hidden;
+}
+.agricko-choose-sec .bottom-img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+}
+
+.agricko-choose-item {
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  text-align: center;
+  padding: 30px 30px 25px;
+}
+@media (max-width: 1650px) {
+  .agricko-choose-item {
+    padding: 30px 20px 25px;
+  }
+}
+.agricko-choose-item .icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: var(--primary-color);
+  font-size: 40px;
+  color: var(--white-color);
+  margin-bottom: 20px;
+}
+.agricko-choose-item .content h4 {
+  color: var(--white-color);
+  margin-bottom: 13px;
+}
+.agricko-choose-item .content p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Intro Section CSS */
+.agricko-intro-sec {
+  position: relative;
+  z-index: 1;
+}
+.agricko-intro-sec:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: -webkit-gradient(linear, left top, right top, color-stop(0.25%, rgba(0, 0, 0, 0.9)), color-stop(47.04%, rgba(0, 0, 0, 0.54)), color-stop(99.8%, rgba(0, 0, 0, 0.9)));
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0.25%, rgba(0, 0, 0, 0.54) 47.04%, rgba(0, 0, 0, 0.9) 99.8%);
+  z-index: -1;
+}
+.agricko-intro-sec .agricko-play-box .video-popup {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  color: var(--white-color);
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.agricko-intro-sec .agricko-play-box .video-popup:before, .agricko-intro-sec .agricko-play-box .video-popup:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: "";
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--white-color);
+}
+.agricko-intro-sec .agricko-play-box .video-popup:after {
+  -webkit-animation: playpopup infinite ease-in 2s;
+          animation: playpopup infinite ease-in 2s;
+}
+.agricko-intro-sec .agricko-play-box .video-popup:before {
+  -webkit-animation: playpopup infinite ease-in-out 4s;
+          animation: playpopup infinite ease-in-out 4s;
+}
+
+.agricko-team-item:hover .member-image .hover-content .social-box {
+  right: 20px;
+}
+.agricko-team-item:hover .member-image .hover-content .member-info {
+  background-color: var(--primary-black-color);
+}
+.agricko-team-item .member-image {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.agricko-team-item .member-image img {
+  width: 100%;
+  border-radius: 10px;
+}
+.agricko-team-item .member-image .hover-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.agricko-team-item .member-image .hover-content .social-box {
+  position: absolute;
+  right: -40%;
+  top: 30px;
+  padding: 15px 10px;
+  text-align: center;
+  background-color: var(--primary-black-color);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.agricko-team-item .member-image .hover-content .social-box a {
+  display: block;
+  color: var(--white-color);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.agricko-team-item .member-image .hover-content .social-box a:not(:last-child) {
+  margin-bottom: 10px;
+}
+.agricko-team-item .member-image .hover-content .member-info {
+  width: 100%;
+  padding: 20px 30px;
+  background-color: var(--primary-color);
+  text-align: center;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.agricko-team-item .member-image .hover-content .member-info h4 {
+  color: var(--white-color);
+}
+.agricko-team-item .member-image .hover-content .member-info .position {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Testimonial Section CSS */
+.agricko-testimonial-item .testimonial-inner-wrap {
+  background-color: var(--gray-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px;
+}
+.agricko-testimonial-item .testimonial-inner-wrap .thumbnail {
+  max-width: 290px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin-right: 60px;
+}
+@media screen and (max-width: 991.98px) {
+  .agricko-testimonial-item .testimonial-inner-wrap .thumbnail {
+    display: none;
+  }
+}
+.agricko-testimonial-item .testimonial-inner-wrap .thumbnail img {
+  border-radius: 5px;
+}
+.agricko-testimonial-item .testimonial-inner-wrap .testimonial-content .ratings {
+  margin-bottom: 22px;
+}
+.agricko-testimonial-item .testimonial-inner-wrap .testimonial-content .ratings i {
+  color: var(--secondary-color);
+}
+.agricko-testimonial-item .testimonial-inner-wrap .testimonial-content p {
+  font-size: 18px;
+  line-height: 34px;
+  font-weight: 500;
+  margin-bottom: 27px;
+}
+@media screen and (max-width: 1199.98px) {
+  .agricko-testimonial-item .testimonial-inner-wrap .testimonial-content p {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 20px;
+  }
+}
+.agricko-testimonial-item .testimonial-inner-wrap .testimonial-content .author-info h5 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+/* Faq Page CSS */
+.agricko-faq-sec .agricko-image img {
+  border-radius: 10px;
+}
+
+.accordion-card {
+  background-color: var(--gray-color);
+  border-radius: 40px;
+  border: 1px solid var(--border-color);
+}
+.accordion-card .accordion-header .accordion-title {
+  padding: 10px 30px 10px 10px;
+  line-height: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+@media (max-width: 767.98px) {
+  .accordion-card .accordion-header .accordion-title {
+    font-size: 16px;
+  }
+}
+.accordion-card .accordion-header .accordion-title:after {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  content: "\f106";
+  font-family: "Font Awesome 5 Pro";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--primary-color);
+  margin-left: auto;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.accordion-card .accordion-header .accordion-title .icon-btn {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 15px;
+  font-size: 14px;
+  background-color: var(--primary-black-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: var(--white-color);
+}
+.accordion-card .accordion-header .accordion-title .icon-btn i {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  -webkit-transition: all 0.34s;
+  transition: all 0.34s;
+}
+.accordion-card .accordion-header .accordion-title[aria-expanded=true] {
+  background-color: var(--primary-black-color);
+  color: var(--white-color);
+  border-radius: 40px;
+}
+.accordion-card .accordion-header .accordion-title[aria-expanded=true] .icon-btn {
+  background-color: var(--primary-color);
+}
+.accordion-card .accordion-header .accordion-title[aria-expanded=true] .icon-btn i {
+  -webkit-transform: rotate(0);
+          transform: rotate(0);
+}
+.accordion-card .accordion-header .accordion-title[aria-expanded=true]:after {
+  content: "\f107";
+  color: var(--secondary-color);
+}
+.accordion-card .accordion-content {
+  padding: 30px;
+}
+.accordion-card .accordion-content p {
+  border-left: 2px solid var(--primary-black-color);
+  padding-left: 15px;
+  line-height: 25px;
+}
+
+/* Contact Section CSS */
+.agricko-contact-sec .agricko-image img {
+  border-radius: 10px;
+}
+
+.contact-wrapper {
+  border-radius: 10px;
+  background-color: var(--gray-color);
+  padding: 40px 50px 50px;
+}
+@media (max-width: 767.98px) {
+  .contact-wrapper {
+    padding: 20px 20px 30px;
+  }
+}
+.contact-wrapper p {
+  margin-bottom: 40px;
+}
+.contact-wrapper label {
+  margin-bottom: 10px;
+  color: var(--heading-color);
+}
+.contact-wrapper .form_control {
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(24, 39, 30, 0.2);
+  background-color: rgba(24, 39, 30, 0.1);
+  margin-bottom: 20px;
+  color: #454545;
+}
+.contact-wrapper .form_control::-webkit-input-placeholder {
+  color: #454545;
+}
+.contact-wrapper .form_control::-moz-placeholder {
+  color: #454545;
+}
+.contact-wrapper .form_control:-ms-input-placeholder {
+  color: #454545;
+}
+.contact-wrapper .form_control::-ms-input-placeholder {
+  color: #454545;
+}
+.contact-wrapper .form_control::placeholder {
+  color: #454545;
+}
+
+/* Blog Section CSS */
+.agricko-post-item .post-thumbnail img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+.agricko-post-item .post-content {
+  border: 1px solid var(--border-color);
+  border-top: none;
+  padding: 23px 30px 30px;
+  border-radius: 0 0 5px 5px;
+}
+.agricko-post-item .post-content .post-meta span {
+  margin-bottom: 10px;
+}
+.agricko-post-item .post-content .post-meta span:not(:last-child) {
+  margin-right: 25px;
+}
+.agricko-post-item .post-content .post-meta span i {
+  margin-right: 10px;
+}
+.agricko-post-item .post-content h4 {
+  margin-bottom: 15px;
+}
+@media screen and (max-width: 991.98px) {
+  .agricko-post-item .post-content h4 {
+    font-size: 18px;
+    line-height: 30px;
+  }
+}
+.agricko-post-item .post-content .icon-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: var(--primary-black-color);
+  color: var(--white-color);
+}
+.agricko-post-item .post-content .icon-btn i {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}

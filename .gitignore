@@ -1,0 +1,22 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# PHP vendor (if ever used)
+vendor/
+
+# Node (future proof)
+node_modules/
+
+# Logs
+*.log
+
+# Uploads (user images)
+public/uploads/
+
+# Local environment
+.env
