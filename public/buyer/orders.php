@@ -9,64 +9,55 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'BUYER') {
 $controller = new BuyerController($pdo);
 $orders = $controller->getBuyerOrders($_SESSION['user_id']);
 
-// Calculate stats
-$total_orders = count($orders);
-$active_orders = count(array_filter($orders, function($o) { 
-    return in_array($o['status'], ['PENDING', 'PAID', 'PROCESSING']); 
-}));
-$completed_orders = count(array_filter($orders, function($o) { 
-    return $o['status'] === 'DELIVERED'; 
-}));
+// If order ID is specified, show details
+$order_detail = null;
+if (isset($_GET['id'])) {
+    $order_detail = $controller->getOrderDetails($_GET['id'], $_SESSION['user_id']);
+}
 
-$site_title  = "Buyer Dashboard | AgroHaat";
+$site_title  = "My Orders | AgroHaat";
 $special_css = "innerpage";
 include '../../includes/header.php';
 ?>
 
 <section class="pt-80 pb-80">
     <div class="container">
-        <h2 class="mb-4">Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'Buyer') ?>!</h2>
+        <h2 class="mb-4">My Orders</h2>
 
-        <!-- Quick Stats -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Orders</h5>
-                        <h3><?= $total_orders ?></h3>
-                    </div>
+        <?php if ($order_detail): ?>
+            <!-- Order Detail View -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Order #<?= $order_detail['order_id'] ?></h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Farmer:</strong> <?= htmlspecialchars($order_detail['farmer_name']) ?></p>
+                    <p><strong>Amount:</strong> ৳<?= number_format($order_detail['total_amount'], 2) ?></p>
+                    <p><strong>Status:</strong> <?= htmlspecialchars($order_detail['status']) ?></p>
+                    <p><strong>Payment Status:</strong> <?= htmlspecialchars($order_detail['payment_status'] ?? 'UNPAID') ?></p>
+                    <p><strong>Shipping Address:</strong> <?= htmlspecialchars($order_detail['shipping_address']) ?></p>
+                    <p><strong>Created:</strong> <?= date('F j, Y g:i A', strtotime($order_detail['created_at'])) ?></p>
+                    
+                    <?php if ($order_detail['status'] === 'PENDING' && ($order_detail['payment_status'] ?? 'UNPAID') === 'UNPAID'): ?>
+                        <a href="<?= $BASE_URL ?>checkout.php?order_id=<?= $order_detail['order_id'] ?>" class="btn btn-primary">Complete Payment</a>
+                    <?php endif; ?>
+                    
+                    <a href="<?= $BASE_URL ?>buyer/orders.php" class="btn btn-secondary">Back to Orders</a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Active Orders</h5>
-                        <h3><?= $active_orders ?></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Completed</h5>
-                        <h3><?= $completed_orders ?></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php endif; ?>
 
-        <!-- Recent Orders -->
+        <!-- Orders List -->
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h4>Recent Orders</h4>
-                <a href="<?= $BASE_URL ?>buyer/orders.php" class="btn btn-primary">View All</a>
+            <div class="card-header">
+                <h4>Order History</h4>
             </div>
             <div class="card-body">
                 <?php if (empty($orders)): ?>
                     <p>You have no orders yet. <a href="<?= $BASE_URL ?>shop.php">Browse products</a> to get started.</p>
                 <?php else: ?>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
@@ -79,7 +70,7 @@ include '../../includes/header.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach (array_slice($orders, 0, 5) as $order): ?>
+                                <?php foreach ($orders as $order): ?>
                                     <tr>
                                         <td>#<?= $order['order_id'] ?></td>
                                         <td><?= htmlspecialchars($order['farmer_name'] ?? 'N/A') ?></td>
@@ -93,6 +84,9 @@ include '../../includes/header.php';
                                         <td><?= date('M j, Y', strtotime($order['created_at'])) ?></td>
                                         <td>
                                             <a href="<?= $BASE_URL ?>buyer/orders.php?id=<?= $order['order_id'] ?>" class="btn btn-sm btn-primary">View</a>
+                                            <?php if ($order['status'] === 'PENDING' && ($order['payment_status'] ?? 'UNPAID') === 'UNPAID'): ?>
+                                                <a href="<?= $BASE_URL ?>checkout.php?order_id=<?= $order['order_id'] ?>" class="btn btn-sm btn-success">Pay</a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -102,26 +96,8 @@ include '../../includes/header.php';
                 <?php endif; ?>
             </div>
         </div>
-
-        <!-- Quick Actions -->
-        <div class="mt-4">
-            <h4>Quick Actions</h4>
-            <div class="row">
-                <div class="col-md-3">
-                    <a href="<?= $BASE_URL ?>shop.php" class="btn btn-outline-primary w-100">Browse Products</a>
-                </div>
-                <div class="col-md-3">
-                    <a href="<?= $BASE_URL ?>buyer/orders.php" class="btn btn-outline-primary w-100">My Orders</a>
-                </div>
-                <div class="col-md-3">
-                    <a href="<?= $BASE_URL ?>buyer/profile.php" class="btn btn-outline-primary w-100">My Profile</a>
-                </div>
-                <div class="col-md-3">
-                    <a href="<?= $BASE_URL ?>trace.php" class="btn btn-outline-primary w-100">QR Trace</a>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
 <?php include '../../includes/footer.php'; ?>
+

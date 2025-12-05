@@ -13,7 +13,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="widget about-widget mb-40">
                                 <a href="<?= $BASE_URL ?>index.php" class="footer-logo">
-                                    <img src="<?= $BASE_URL ?>assets/images/home-one/logo/logo-main.png" alt="AgroHaat">
+                                    <img src="<?= $BASE_URL ?>assets/images/home-one/logo/logo-main.png?v=<?= time() ?>" alt="AgroHaat">
                                 </a>
                                 <p>AgroHaat connects farmers directly with buyers and logistics – a farmer-first marketplace.</p>
                             </div>

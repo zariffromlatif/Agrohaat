@@ -88,7 +88,7 @@ require_once __DIR__ . '/../config/config.php';
                             <!--====  Site Branding  ===-->
                             <div class="site-branding">
                                 <a href="<?= $BASE_URL ?>index.php" class="brand-logo">
-                                    <img src="<?= $BASE_URL ?>assets/images/home-one/logo/logo-main.png" alt="Brand Logo">
+                                    <img src="<?= $BASE_URL ?>assets/images/home-one/logo/logo-main.png?v=<?= time() ?>" alt="Brand Logo">
                                 </a>
                             </div>
 
@@ -98,7 +98,7 @@ require_once __DIR__ . '/../config/config.php';
                                 <div class="theme-menu-top d-flex justify-content-between d-block d-xl-none mb-4">
                                     <div class="site-branding text-center">
                                         <a href="<?= $BASE_URL ?>index.php" class="brand-logo">
-                                            <img src="<?= $BASE_URL ?>assets/images/home-one/logo/logo-main.png" alt="Brand Logo">
+                                            <img src="<?= $BASE_URL ?>assets/images/home-one/logo/logo-main.png?v=<?= time() ?>" alt="Brand Logo">
                                         </a>
                                     </div>
                                 </div>
@@ -108,7 +108,7 @@ require_once __DIR__ . '/../config/config.php';
 
                                 <!--=== Theme Nav Button (mobile) ===-->
                                 <div class="theme-nav-button mt-3 d-block d-lg-none">
-                                    <a href="<?= $BASE_URL ?>contact.php" class="theme-btn style-one">Get A Quote</a>
+                                    <a href="<?= $BASE_URL ?>farmer/register.php" class="theme-btn style-one">Join as Farmer</a>
                                 </div>
 
                                 <!--=== Theme Menu Bottom (mobile) ===-->
@@ -134,7 +134,7 @@ require_once __DIR__ . '/../config/config.php';
                                     </a>
                                 </div>
                                 <div class="nav-button d-none d-md-block">
-                                    <a href="<?= $BASE_URL ?>contact.php" class="theme-btn style-one">Get A Quote</a>
+                                    <a href="<?= $BASE_URL ?>farmer/register.php" class="theme-btn style-one">Join as Farmer</a>
                                 </div>
                                 <div class="navbar-toggler">
                                     <span></span>

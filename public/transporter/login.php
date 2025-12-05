@@ -1,16 +1,16 @@
 <?php
 require_once '../../config/config.php';
-require_once '../../controllers/BuyerAuthController.php';
+require_once '../../controllers/TransporterAuthController.php';
 
-// If already logged in as buyer, go to dashboard
-if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'BUYER') {
-    redirect('buyer/dashboard.php');
+// If already logged in as transporter, go to dashboard
+if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'TRANSPORTER') {
+    redirect('transporter/dashboard.php');
 }
 
-$auth = new BuyerAuthController($pdo);
+$auth = new TransporterAuthController($pdo);
 $auth->handleLogin();
 
-$site_title  = "Buyer Login | AgroHaat";
+$site_title  = "Transporter Login | AgroHaat";
 $special_css = "innerpage";
 include '../../includes/header.php';
 ?>
@@ -19,7 +19,7 @@ include '../../includes/header.php';
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="mb-4 text-center">Buyer Login</h2>
+                <h2 class="mb-4 text-center">Transporter Login</h2>
 
                 <?php if (!empty($auth->error)): ?>
                     <div class="alert alert-danger">
@@ -46,7 +46,7 @@ include '../../includes/header.php';
                 </form>
 
                 <p class="mt-3 text-center">
-                    New buyer? <a href="<?= $BASE_URL ?>buyer/register.php">Create an account</a>
+                    New transporter? <a href="<?= $BASE_URL ?>transporter/register.php">Create an account</a>
                 </p>
             </div>
         </div>
@@ -54,3 +54,4 @@ include '../../includes/header.php';
 </section>
 
 <?php include '../../includes/footer.php'; ?>
+
