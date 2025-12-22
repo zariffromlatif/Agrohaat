@@ -12,12 +12,14 @@ class AdminController {
         $orders = $this->pdo->query("SELECT COUNT(*) as total FROM orders")->fetch();
         $disputes = $this->pdo->query("SELECT COUNT(*) as total FROM disputes WHERE status = 'OPEN'")->fetch();
         $products = $this->pdo->query("SELECT COUNT(*) as total FROM products WHERE is_deleted = 0")->fetch();
+        $pendingPayments = $this->pdo->query("SELECT COUNT(*) as total FROM payments WHERE status IN ('PENDING', 'PROCESSING')")->fetch();
         
         return [
             "users" => $users['total'],
             "orders" => $orders['total'],
             "disputes" => $disputes['total'],
-            "products" => $products['total']
+            "products" => $products['total'],
+            "pending_payments" => $pendingPayments['total']
         ];
     }
 
@@ -66,6 +68,16 @@ class AdminController {
 
     public function deleteProduct($productID) {
         $stmt = $this->pdo->prepare("UPDATE products SET is_deleted = 1 WHERE product_id = :pid");
+        return $stmt->execute([':pid' => $productID]);
+    }
+
+    public function approveProduct($productID) {
+        $stmt = $this->pdo->prepare("UPDATE products SET status = 'ACTIVE' WHERE product_id = :pid AND status = 'PENDING'");
+        return $stmt->execute([':pid' => $productID]);
+    }
+
+    public function rejectProduct($productID) {
+        $stmt = $this->pdo->prepare("UPDATE products SET status = 'INACTIVE' WHERE product_id = :pid AND status = 'PENDING'");
         return $stmt->execute([':pid' => $productID]);
     }
 

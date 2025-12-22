@@ -117,14 +117,6 @@ include '../includes/header.php';
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="feature-box text-center p-4 h-100">
-                    <div class="icon-box bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="flaticon-qr-code text-success fs-1"></i>
-                    </div>
-                    <h4>QR Traceability</h4>
-                    <p class="mb-0">
-                        Every product comes with QR code traceability, allowing you to verify the origin, 
-                        quality, and journey of your agricultural products.
-                    </p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">

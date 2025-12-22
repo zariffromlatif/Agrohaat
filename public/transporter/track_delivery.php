@@ -72,7 +72,7 @@ $error_message = '';
 // Handle status updates when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_status = $_POST['status'];
-    $valid_statuses = ['ASSIGNED', 'IN_PROGRESS', 'COMPLETED'];
+    $valid_statuses = ['ASSIGNED', 'PICKED_UP', 'IN_TRANSIT', 'DELIVERED'];
     
     if (!in_array($new_status, $valid_statuses)) {
         $error_message = "Invalid status";
@@ -85,16 +85,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("UPDATE deliveryjobs SET status = ? WHERE job_id = ?");
             $stmt->execute([$new_status, $job_id]);
             
+            // Update delivery record if exists
+            if ($new_status === 'PICKED_UP') {
+                $stmt = $pdo->prepare("UPDATE deliveries SET status = 'PICKED_UP', pickup_time = NOW(), updated_at = NOW() WHERE job_id = ?");
+                $stmt->execute([$job_id]);
+            } elseif ($new_status === 'IN_TRANSIT') {
+                $stmt = $pdo->prepare("UPDATE deliveries SET status = 'IN_TRANSIT', updated_at = NOW() WHERE job_id = ?");
+                $stmt->execute([$job_id]);
+            } elseif ($new_status === 'DELIVERED') {
+                $stmt = $pdo->prepare("UPDATE deliveries SET status = 'DELIVERED', delivery_time = NOW(), updated_at = NOW() WHERE job_id = ?");
+                $stmt->execute([$job_id]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE deliveries SET status = ?, updated_at = NOW() WHERE job_id = ?");
+                $stmt->execute([$new_status, $job_id]);
+            }
+            
             // Also update the main order status to keep everything in sync
             $order_status = '';
             switch ($new_status) {
                 case 'ASSIGNED':
                     $order_status = 'PROCESSING';
                     break;
-                case 'IN_PROGRESS':
+                case 'PICKED_UP':
+                    $order_status = 'PROCESSING';
+                    break;
+                case 'IN_TRANSIT':
                     $order_status = 'SHIPPED';
                     break;
-                case 'COMPLETED':
+                case 'DELIVERED':
                     $order_status = 'DELIVERED';
                     break;
             }
@@ -108,8 +126,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($pdo->query("SHOW TABLES LIKE 'notifications'")->rowCount() > 0) {
                 $status_messages = [
                     'ASSIGNED' => 'Your delivery job #' . $job_id . ' has been accepted by the transporter',
-                    'IN_PROGRESS' => 'Your order #' . $job['order_id'] . ' is now in transit',
-                    'COMPLETED' => 'Your order #' . $job['order_id'] . ' has been delivered successfully'
+                    'PICKED_UP' => 'Your order #' . $job['order_id'] . ' has been picked up by the transporter',
+                    'IN_TRANSIT' => 'Your order #' . $job['order_id'] . ' is now in transit',
+                    'DELIVERED' => 'Your order #' . $job['order_id'] . ' has been delivered successfully'
                 ];
                 
                 $stmt = $pdo->prepare("
@@ -123,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
                 
                 // When delivery is complete, notify the farmers too
-                if ($new_status === 'COMPLETED') {
+                if ($new_status === 'DELIVERED') {
                     $stmt = $pdo->prepare("
                         SELECT DISTINCT p.farmer_id 
                         FROM order_items oi
@@ -328,8 +347,9 @@ include '../../includes/header.php';
                                 'OPEN' => '⏳ Pending',
                                 'BIDDING' => '💰 Bidding',
                                 'ASSIGNED' => '✓ Assigned',
-                                'IN_PROGRESS' => '🚚 In Transit',
-                                'COMPLETED' => '✅ Delivered',
+                                'PICKED_UP' => '📦 Picked Up',
+                                'IN_TRANSIT' => '🚚 In Transit',
+                                'DELIVERED' => '✅ Delivered',
                                 'CANCELLED' => '❌ Cancelled'
                             ];
                             echo '<span class="badge bg-warning text-dark fs-6">' . ($status_display[$job['status']] ?? $job['status']) . '</span>';
@@ -339,32 +359,32 @@ include '../../includes/header.php';
                     <div class="card-body">
                         <!-- Status Steps -->
                         <div class="mb-4">
-                            <div class="d-flex align-items-center mb-3 <?php echo in_array($job['status'], ['ASSIGNED', 'IN_PROGRESS', 'COMPLETED']) ? 'text-success' : ''; ?>">
-                                <span class="me-2"><?php echo in_array($job['status'], ['ASSIGNED', 'IN_PROGRESS', 'COMPLETED']) ? '✓' : '○'; ?></span>
+                            <div class="d-flex align-items-center mb-3 <?php echo in_array($job['status'], ['ASSIGNED', 'PICKED_UP', 'IN_TRANSIT', 'DELIVERED']) ? 'text-success' : ''; ?>">
+                                <span class="me-2"><?php echo in_array($job['status'], ['ASSIGNED', 'PICKED_UP', 'IN_TRANSIT', 'DELIVERED']) ? '✓' : '○'; ?></span>
                                 <div>
                                     <strong>Bid Accepted</strong><br>
                                     <small class="text-muted">Job assigned to you</small>
                                 </div>
                             </div>
                             
-                            <div class="d-flex align-items-center mb-3 <?php echo in_array($job['status'], ['IN_PROGRESS', 'COMPLETED']) ? 'text-success' : ''; ?>">
-                                <span class="me-2"><?php echo in_array($job['status'], ['IN_PROGRESS', 'COMPLETED']) ? '✓' : '○'; ?></span>
+                            <div class="d-flex align-items-center mb-3 <?php echo in_array($job['status'], ['PICKED_UP', 'IN_TRANSIT', 'DELIVERED']) ? 'text-success' : ''; ?>">
+                                <span class="me-2"><?php echo in_array($job['status'], ['PICKED_UP', 'IN_TRANSIT', 'DELIVERED']) ? '✓' : '○'; ?></span>
                                 <div>
                                     <strong>Picked Up</strong><br>
-                                    <small class="text-muted">Products collected</small>
+                                    <small class="text-muted">Products collected from farmer</small>
                                 </div>
                             </div>
                             
-                            <div class="d-flex align-items-center mb-3 <?php echo $job['status'] == 'COMPLETED' ? 'text-success' : ($job['status'] == 'IN_PROGRESS' ? 'text-primary' : ''); ?>">
-                                <span class="me-2"><?php echo $job['status'] == 'COMPLETED' ? '✓' : ($job['status'] == 'IN_PROGRESS' ? '●' : '○'); ?></span>
+                            <div class="d-flex align-items-center mb-3 <?php echo in_array($job['status'], ['IN_TRANSIT', 'DELIVERED']) ? 'text-success' : ($job['status'] == 'IN_TRANSIT' ? 'text-primary' : ''); ?>">
+                                <span class="me-2"><?php echo in_array($job['status'], ['IN_TRANSIT', 'DELIVERED']) ? ($job['status'] == 'IN_TRANSIT' ? '●' : '✓') : '○'; ?></span>
                                 <div>
                                     <strong>In Transit</strong><br>
-                                    <small class="text-muted">On the way</small>
+                                    <small class="text-muted">On the way to buyer</small>
                                 </div>
                             </div>
                             
-                            <div class="d-flex align-items-center <?php echo $job['status'] == 'COMPLETED' ? 'text-success' : ''; ?>">
-                                <span class="me-2"><?php echo $job['status'] == 'COMPLETED' ? '✓' : '○'; ?></span>
+                            <div class="d-flex align-items-center <?php echo $job['status'] == 'DELIVERED' ? 'text-success' : ''; ?>">
+                                <span class="me-2"><?php echo $job['status'] == 'DELIVERED' ? '✓' : '○'; ?></span>
                                 <div>
                                     <strong>Delivered</strong><br>
                                     <small class="text-muted">Order complete</small>
@@ -372,24 +392,33 @@ include '../../includes/header.php';
                             </div>
                         </div>
 
-                        <?php if ($job['status'] !== 'COMPLETED' && $job['status'] !== 'CANCELLED'): ?>
+                        <?php if ($job['status'] !== 'DELIVERED' && $job['status'] !== 'CANCELLED'): ?>
                             <div class="border-top pt-3">
                                 <h5 class="mb-3">Update Delivery Status</h5>
                                 <form method="POST" action="">
                                     <div class="mb-3">
                                         <?php if ($job['status'] == 'ASSIGNED'): ?>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="status" value="IN_PROGRESS" id="in_progress" required>
-                                                <label class="form-check-label" for="in_progress">
+                                                <input class="form-check-input" type="radio" name="status" value="PICKED_UP" id="picked_up" required>
+                                                <label class="form-check-label" for="picked_up">
+                                                    📦 Mark as Picked Up
+                                                </label>
+                                            </div>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($job['status'] == 'PICKED_UP'): ?>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="status" value="IN_TRANSIT" id="in_transit" required>
+                                                <label class="form-check-label" for="in_transit">
                                                     🚚 Mark as In Transit
                                                 </label>
                                             </div>
                                         <?php endif; ?>
                                         
-                                        <?php if ($job['status'] == 'IN_PROGRESS'): ?>
+                                        <?php if ($job['status'] == 'IN_TRANSIT'): ?>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="status" value="COMPLETED" id="completed" required>
-                                                <label class="form-check-label" for="completed">
+                                                <input class="form-check-input" type="radio" name="status" value="DELIVERED" id="delivered" required>
+                                                <label class="form-check-label" for="delivered">
                                                     ✅ Mark as Delivered
                                                 </label>
                                             </div>

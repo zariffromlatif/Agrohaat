@@ -45,7 +45,7 @@ include '../includes/header.php';
             <div class="col-md-4">
                 <div class="feature-item text-center">
                     <h3>Marketplace</h3>
-                    <p>Explore fresh products directly from farmers with QR traceability.</p>
+                    <p>Explore fresh products directly from farmers.</p>
                     <a href="<?= $BASE_URL ?>shop.php" class="btn btn-primary">View Products</a>
                 </div>
             </div>

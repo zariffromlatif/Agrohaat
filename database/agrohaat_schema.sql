@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS orders (
   farmer_id BIGINT NOT NULL,
   total_amount DECIMAL(10,2) NOT NULL,
   status ENUM('PENDING', 'PAID', 'CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') DEFAULT 'PENDING',
-  payment_status ENUM('UNPAID', 'PAID', 'REFUNDED') DEFAULT 'UNPAID',
+  payment_status ENUM('UNPAID', 'PENDING', 'PAID', 'PARTIAL', 'REFUNDED') DEFAULT 'UNPAID',
   payment_method VARCHAR(50),
   transaction_id VARCHAR(255),
   shipping_address TEXT NOT NULL,

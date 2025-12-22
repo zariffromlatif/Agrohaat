@@ -23,30 +23,40 @@ class TransporterProfile {
         $existing = $this->getByUserId($user_id);
 
         if ($existing) {
-            // Update
+            // Update - use transporter_id from existing record
             $sql = "UPDATE transporter_profiles SET 
                     vehicle_type = :vehicle_type,
                     license_plate = :license_plate,
                     max_capacity_kg = :max_capacity_kg,
                     service_area_districts = :service_area_districts,
                     updated_at = NOW()
-                    WHERE user_id = :uid";
+                    WHERE transporter_id = :transporter_id";
+            
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([
+                ':transporter_id' => $existing['transporter_id'],
+                ':vehicle_type' => $vehicle_type,
+                ':license_plate' => strtoupper(trim($license_plate)),
+                ':max_capacity_kg' => (int)$max_capacity_kg,
+                ':service_area_districts' => $service_area_districts
+            ]);
         } else {
-            // Insert
+            // Insert - set transporter_id = user_id (since transporter_id is the primary key and foreign key)
             $sql = "INSERT INTO transporter_profiles 
-                    (user_id, vehicle_type, license_plate, max_capacity_kg, service_area_districts) 
+                    (transporter_id, user_id, vehicle_type, license_plate, max_capacity_kg, service_area_districts) 
                     VALUES 
-                    (:uid, :vehicle_type, :license_plate, :max_capacity_kg, :service_area_districts)";
+                    (:transporter_id, :uid, :vehicle_type, :license_plate, :max_capacity_kg, :service_area_districts)";
+            
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([
+                ':transporter_id' => $user_id,
+                ':uid' => $user_id,
+                ':vehicle_type' => $vehicle_type,
+                ':license_plate' => strtoupper(trim($license_plate)),
+                ':max_capacity_kg' => (int)$max_capacity_kg,
+                ':service_area_districts' => $service_area_districts
+            ]);
         }
-
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':uid' => $user_id,
-            ':vehicle_type' => $vehicle_type,
-            ':license_plate' => strtoupper(trim($license_plate)),
-            ':max_capacity_kg' => (int)$max_capacity_kg,
-            ':service_area_districts' => $service_area_districts
-        ]);
     }
 }
 

@@ -4,8 +4,10 @@ require_once __DIR__ . '/../models/Product.php';
 class ProductController {
 
     private $model;
+    private $pdo;
 
     public function __construct($pdo) {
+        $this->pdo = $pdo;
         $this->model = new Product($pdo);
     }
 
@@ -34,13 +36,6 @@ class ProductController {
             }
         }
 
-        // TRACE ID + QR URL (on-the-fly QR image via external service)
-        $trace_id = uniqid("TRC");
-        // BASE_URL is defined in config.php and loaded in the page
-        global $BASE_URL;
-        $traceUrl = $BASE_URL . 'trace.php?tid=' . urlencode($trace_id);
-        $qrUrl    = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' . urlencode($traceUrl);
-
         $this->model->create([
             ':farmer_id'          => $farmer_id,
             ':category_id'        => $_POST['category_id'],
@@ -53,8 +48,8 @@ class ProductController {
             ':quality_grade'      => $_POST['quality_grade'],
             ':harvest_date'       => $_POST['harvest_date'],
             ':batch_number'       => $_POST['batch_number'],
-            ':trace_id'           => $trace_id,
-            ':qr_code_url'        => $qrUrl,
+            ':trace_id'           => null,
+            ':qr_code_url'        => null,
         ]);
 
         header("Location: products.php?created=1");

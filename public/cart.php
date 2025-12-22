@@ -127,16 +127,19 @@ include '../includes/header.php';
                                         <strong><?= htmlspecialchars($item['product']['title']) ?></strong><br>
                                         <small class="text-muted">By: <?= htmlspecialchars($item['product']['farmer_name']) ?></small>
                                     </td>
-                                    <td>৳<?= number_format($item['product']['price_per_unit'], 2) ?> / <?= htmlspecialchars($item['product']['unit']) ?></td>
+                                    <td>৳<span class="unit-price" data-price="<?= $item['product']['price_per_unit'] ?>"><?= number_format($item['product']['price_per_unit'], 2) ?></span> / <?= htmlspecialchars($item['product']['unit']) ?></td>
                                     <td>
-                                        <input type="number" name="quantities[<?= $item['product']['product_id'] ?>]" 
+                                        <input type="number" 
+                                               name="quantities[<?= $item['product']['product_id'] ?>]" 
                                                value="<?= $item['quantity'] ?>" 
                                                min="0.01" 
                                                step="0.01" 
-                                               class="form-control" 
+                                               class="form-control quantity-input" 
+                                               data-product-id="<?= $item['product']['product_id'] ?>"
+                                               data-unit-price="<?= $item['product']['price_per_unit'] ?>"
                                                style="width: 100px;">
                                     </td>
-                                    <td>৳<?= number_format($item['subtotal'], 2) ?></td>
+                                    <td>৳<span class="subtotal-display" data-product-id="<?= $item['product']['product_id'] ?>"><?= number_format($item['subtotal'], 2) ?></span></td>
                                     <td>
                                         <a href="?remove=<?= $item['product']['product_id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Remove from cart?')">Remove</a>
                                     </td>
@@ -146,7 +149,7 @@ include '../includes/header.php';
                         <tfoot>
                             <tr>
                                 <th colspan="3">Total</th>
-                                <th>৳<?= number_format($total, 2) ?></th>
+                                <th>৳<span id="cart-total"><?= number_format($total, 2) ?></span></th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -165,5 +168,51 @@ include '../includes/header.php';
         <?php endif; ?>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    
+    function updateSubtotal(input) {
+        const productId = input.getAttribute('data-product-id');
+        const unitPrice = parseFloat(input.getAttribute('data-unit-price'));
+        const quantity = parseFloat(input.value) || 0;
+        
+        const subtotal = unitPrice * quantity;
+        const subtotalDisplay = document.querySelector(`.subtotal-display[data-product-id="${productId}"]`);
+        
+        if (subtotalDisplay) {
+            subtotalDisplay.textContent = subtotal.toFixed(2);
+        }
+        
+        updateTotal();
+    }
+    
+    function updateTotal() {
+        const subtotals = document.querySelectorAll('.subtotal-display');
+        let total = 0;
+        
+        subtotals.forEach(function(subtotalEl) {
+            total += parseFloat(subtotalEl.textContent) || 0;
+        });
+        
+        const totalDisplay = document.getElementById('cart-total');
+        if (totalDisplay) {
+            totalDisplay.textContent = total.toFixed(2);
+        }
+    }
+    
+    // Add event listeners to all quantity inputs
+    quantityInputs.forEach(function(input) {
+        input.addEventListener('input', function() {
+            updateSubtotal(this);
+        });
+        
+        input.addEventListener('change', function() {
+            updateSubtotal(this);
+        });
+    });
+});
+</script>
 
 <?php include '../includes/footer.php'; ?>

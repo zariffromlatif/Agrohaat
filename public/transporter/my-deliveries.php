@@ -148,15 +148,20 @@ include '../../includes/header.php';
                                 </div>
                             </div>
                             <div class="card-footer bg-light">
-                                <?php if ($delivery['status'] !== 'COMPLETED'): ?>
-                                    <a href="track_delivery.php?job_id=<?= $delivery['job_id'] ?>" class="btn btn-success w-100">
-                                        Track & Update Status
+                                <div class="d-grid gap-2">
+                                    <?php if ($delivery['status'] !== 'COMPLETED'): ?>
+                                        <a href="track_delivery.php?job_id=<?= $delivery['job_id'] ?>" class="btn btn-success">
+                                            Track & Update Status
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="track_delivery.php?job_id=<?= $delivery['job_id'] ?>" class="btn btn-outline-secondary">
+                                            View Details
+                                        </a>
+                                    <?php endif; ?>
+                                    <a href="chat.php?order_id=<?= $delivery['order_id'] ?>" class="btn btn-info">
+                                        <i class="fas fa-comments"></i> Chat
                                     </a>
-                                <?php else: ?>
-                                    <a href="track_delivery.php?job_id=<?= $delivery['job_id'] ?>" class="btn btn-outline-secondary w-100">
-                                        View Details
-                                    </a>
-                                <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>

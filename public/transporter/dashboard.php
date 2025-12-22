@@ -61,18 +61,56 @@ include '../../includes/header.php';
 
         <div class="row">
             <div class="col-md-3">
-                <a href="<?= $BASE_URL ?>transporter/profile.php" class="btn btn-primary w-100 mb-2">Manage Profile</a>
+                <a href="<?= $BASE_URL ?>transporter/profile.php" class="btn btn-primary w-100 mb-2">
+                    <i class="fas fa-user"></i> Manage Profile
+                </a>
             </div>
             <div class="col-md-3">
-                <a href="<?= $BASE_URL ?>transporter/jobs.php" class="btn btn-success w-100 mb-2">View Available Jobs</a>
+                <a href="<?= $BASE_URL ?>transporter/jobs.php" class="btn btn-success w-100 mb-2">
+                    <i class="fas fa-briefcase"></i> View Available Jobs
+                </a>
             </div>
             <div class="col-md-3">
-                <a href="<?= $BASE_URL ?>transporter/my-bids.php" class="btn btn-info w-100 mb-2">My Bids</a>
+                <a href="<?= $BASE_URL ?>transporter/my-bids.php" class="btn btn-info w-100 mb-2">
+                    <i class="fas fa-hand-holding-usd"></i> My Bids
+                </a>
             </div>
             <div class="col-md-3">
-                <a href="<?= $BASE_URL ?>transporter/my-deliveries.php" class="btn btn-warning w-100 mb-2">My Deliveries</a>
+                <a href="<?= $BASE_URL ?>transporter/my-deliveries.php" class="btn btn-warning w-100 mb-2">
+                    <i class="fas fa-truck"></i> My Deliveries
+                </a>
             </div>
         </div>
+
+        <!-- API Information -->
+        <?php if ($profile): ?>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5><i class="fas fa-code"></i> API Endpoints Available</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">All transporter operations are available via RESTful API endpoints:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> <code>GET /api/transporter/jobs.php</code> - List available jobs</li>
+                            <li><i class="fas fa-check text-success"></i> <code>POST /api/transporter/bids/create.php</code> - Create bid</li>
+                            <li><i class="fas fa-check text-success"></i> <code>GET /api/transporter/bids.php</code> - List my bids</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> <code>GET /api/transporter/deliveries.php</code> - List my deliveries</li>
+                            <li><i class="fas fa-check text-success"></i> <code>POST /api/transporter/deliveries/update.php</code> - Update delivery status</li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="<?= $BASE_URL ?>api/transporter/README.md" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                    <i class="fas fa-book"></i> View API Documentation
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 

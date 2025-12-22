@@ -121,5 +121,16 @@ Agrohaat/
 
 ---
 
+## 🔄 Recent Updates (v1.1 - January 2025)
+
+- ✅ Removed QR trace functionality
+- ✅ Fixed buyer dashboard functionality
+- ✅ Cleaned up test/debug files
+- ✅ Improved payment processing
+- ✅ Enhanced order management
+- ✅ Code cleanup and optimization
+
+---
+
 **For detailed setup instructions, see `TEAM_SETUP_GUIDE.md`**
 

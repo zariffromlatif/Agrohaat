@@ -19,7 +19,7 @@
 ### Key Objectives
 - Direct farmer-to-buyer connectivity
 - Fair pricing for agricultural products
-- Quality assurance through QR code traceability
+- Quality assurance and product grading
 - Integrated logistics and delivery management
 - Secure payment processing
 - Transparent transaction management
@@ -89,7 +89,6 @@ Agrohaat/
   - Quality grade
   - Product images
   - Harvest date, batch number
-  - QR code generation for traceability
 - **Edit Products:** Update product details
 - **Delete Products:** Remove products from marketplace
 - **View Products:** List all products with status
@@ -120,7 +119,7 @@ Agrohaat/
 - **Browse Products:** View all available products from farmers
 - **Search & Filter:** Search by category, price range, location
 - **Product Details:** View detailed product information
-- **QR Traceability:** Scan QR codes to verify product origin and quality
+- **Product Details:** View comprehensive product information including origin and quality
 
 #### Shopping Cart
 - **Add to Cart:** Add products to shopping cart
@@ -249,7 +248,7 @@ Agrohaat/
 
 #### Products Table
 - Product listings from farmers
-- Fields: product_id, farmer_id, category_id, title, description, quantity, price, quality_grade, images, QR codes, traceability info
+- Fields: product_id, farmer_id, category_id, title, description, quantity, price, quality_grade, images, harvest_date, batch_number
 
 #### Orders Table
 - Order transactions
@@ -353,7 +352,6 @@ Agrohaat/
 ### Public Endpoints
 - `GET /shop.php` - Browse marketplace
 - `GET /product-details.php?id={id}` - Product details
-- `GET /trace.php?qr={code}` - QR code traceability
 
 ---
 
@@ -384,7 +382,7 @@ Agrohaat/
 ✅ Product listing and management  
 ✅ Order management  
 ✅ Direct communication with buyers  
-✅ QR code generation for traceability  
+✅ Product quality grading system  
 ✅ Earnings tracking  
 
 ### For Buyers
@@ -392,7 +390,7 @@ Agrohaat/
 ✅ Shopping cart functionality  
 ✅ Secure checkout and payment  
 ✅ Order tracking  
-✅ Product traceability via QR codes  
+✅ Product information and origin details  
 ✅ Reviews and ratings  
 
 ### For Transporters
@@ -516,14 +514,22 @@ Agrohaat/
 
 ## 🔄 Version History
 
+- **v1.1** (January 2025) - Current Version
+  - Removed QR trace functionality
+  - Fixed buyer dashboard functionality
+  - Cleaned up test/debug files
+  - Improved payment processing
+  - Enhanced order management
+  - Code cleanup and optimization
+
 - **v1.0** (2025) - Initial release
   - Core marketplace functionality
   - Farmer, Buyer, Admin, Transporter modules
-  - QR code traceability
   - Delivery management system
   - Dispute resolution system
+  - Payment processing system
 
 ---
 
-*Last Updated: December 2025*
+*Last Updated: January 2025*
 

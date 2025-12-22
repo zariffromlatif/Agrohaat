@@ -1,0 +1,6 @@
+<!-- Simple SVG placeholder for American Express -->
+<svg width="100" height="60" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="60" fill="#006FCF" rx="8"/>
+  <text x="50" y="30" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">American</text>
+  <text x="50" y="45" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">Express</text>
+</svg>

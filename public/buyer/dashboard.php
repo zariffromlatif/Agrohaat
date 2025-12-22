@@ -27,6 +27,22 @@ include '../../includes/header.php';
     <div class="container">
         <h2 class="mb-4">Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'Buyer') ?>!</h2>
 
+        <?php if (isset($_SESSION['success_message'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>✅ Success!</strong> <?= htmlspecialchars($_SESSION['success_message']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['success_message']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error_message'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>❌ Error!</strong> <?= htmlspecialchars($_SESSION['error_message']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['error_message']); ?>
+        <?php endif; ?>
+
         <!-- Quick Stats -->
         <div class="row mb-4">
             <div class="col-md-4">
@@ -115,9 +131,6 @@ include '../../includes/header.php';
                 </div>
                 <div class="col-md-3">
                     <a href="<?= $BASE_URL ?>buyer/profile.php" class="btn btn-outline-primary w-100">My Profile</a>
-                </div>
-                <div class="col-md-3">
-                    <a href="<?= $BASE_URL ?>trace.php" class="btn btn-outline-primary w-100">QR Trace</a>
                 </div>
             </div>
         </div>

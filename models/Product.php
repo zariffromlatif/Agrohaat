@@ -16,6 +16,10 @@ class Product {
 
     // CREATE PRODUCT
     public function create($data) {
+        // Generate trace_id if not provided or is null
+        if (empty($data[':trace_id']) || $data[':trace_id'] === null) {
+            $data[':trace_id'] = 'TRACE_' . time() . '_' . uniqid();
+        }
 
         $sql = "INSERT INTO products 
                 (farmer_id, category_id, title, description, image_url, 
@@ -24,7 +28,7 @@ class Product {
                 VALUES
                 (:farmer_id, :category_id, :title, :description, :image_url,
                  :quantity_available, :unit, :price_per_unit, :quality_grade,
-                 :harvest_date, :batch_number, :trace_id, :qr_code_url, 'ACTIVE', 0)";
+                 :harvest_date, :batch_number, :trace_id, :qr_code_url, 'PENDING', 0)";
 
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($data);

@@ -123,35 +123,86 @@ include '../includes/header.php';
                     </div>
                 <?php else: ?>
                     <div class="row">
-                        <?php foreach ($products as $product): ?>
+                        <?php 
+                        // Load ProductImage model once
+                        require_once '../models/ProductImage.php';
+                        $imageModel = new ProductImage($pdo);
+                        
+                        foreach ($products as $product): 
+                            // Get all images for product
+                            $allImages = $imageModel->getByProductId($product['product_id']);
+                            
+                            // Fallback to old image_url if no images in product_images table
+                            if (empty($allImages) && !empty($product['image_url'])) {
+                                $allImages = [['image_url' => $product['image_url'], 'is_primary' => 1]];
+                            }
+                            
+                            $displayImage = !empty($allImages) ? $allImages[0]['image_url'] : null;
+                            $hasMultipleImages = count($allImages) > 1;
+                        ?>
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100">
-                                    <?php if (!empty($product['image_url'])): ?>
-                                        <img src="<?= $BASE_URL . htmlspecialchars($product['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['title']) ?>" style="height: 200px; object-fit: cover;">
+                                    <?php if (!empty($displayImage)): ?>
+                                        <div class="product-card-image-container" style="position: relative; height: 200px; overflow: hidden;">
+                                            <?php if ($hasMultipleImages): ?>
+                                                <!-- Image Carousel for Multiple Images -->
+                                                <div id="carousel-<?= $product['product_id'] ?>" class="carousel slide" data-bs-ride="carousel" style="height: 100%;">
+                                                    <div class="carousel-inner" style="height: 100%;">
+                                                        <?php foreach ($allImages as $index => $img): ?>
+                                                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>" style="height: 100%;">
+                                                                <img src="<?= $BASE_URL . htmlspecialchars($img['image_url']) ?>" 
+                                                                     class="d-block w-100" 
+                                                                     alt="<?= htmlspecialchars($product['title'] ?? 'Product') ?>" 
+                                                                     style="height: 100%; object-fit: cover;">
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                    <?php if ($hasMultipleImages): ?>
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide="prev" style="width: 30px; height: 30px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border-radius: 50%;">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide="next" style="width: 30px; height: 30px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border-radius: 50%;">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                        <!-- Image Count Badge -->
+                                                        <div class="position-absolute top-0 end-0 m-2">
+                                                            <span class="badge bg-dark bg-opacity-75">
+                                                                <i class="fas fa-images"></i> <?= count($allImages) ?>
+                                                            </span>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <!-- Single Image -->
+                                                <img src="<?= $BASE_URL . htmlspecialchars($displayImage) ?>" 
+                                                     class="card-img-top" 
+                                                     alt="<?= htmlspecialchars($product['title'] ?? 'Product') ?>" 
+                                                     style="height: 100%; object-fit: cover;">
+                                            <?php endif; ?>
+                                        </div>
                                     <?php else: ?>
                                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
                                             <i class="fas fa-image fa-3x text-muted"></i>
                                         </div>
                                     <?php endif; ?>
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= htmlspecialchars($product['title']) ?></h5>
-                                        <p class="card-text text-muted small">By: <?= htmlspecialchars($product['farmer_name']) ?></p>
+                                        <h5 class="card-title"><?= htmlspecialchars($product['title'] ?? 'Untitled Product') ?></h5>
+                                        <p class="card-text text-muted small">By: <?= htmlspecialchars($product['farmer_name'] ?? 'Unknown') ?></p>
                                         <p class="card-text">
-                                            <strong>৳<?= number_format($product['price_per_unit'], 2) ?></strong> per <?= htmlspecialchars($product['unit']) ?>
+                                            <strong>৳<?= number_format($product['price_per_unit'] ?? 0, 2) ?></strong> per <?= htmlspecialchars($product['unit'] ?? 'KG') ?>
                                         </p>
                                         <p class="card-text small">
-                                            <span class="badge bg-info"><?= htmlspecialchars($product['quality_grade']) ?></span>
-                                            <span class="text-muted"><?= htmlspecialchars($product['district']) ?></span>
+                                            <span class="badge bg-info"><?= htmlspecialchars($product['quality_grade'] ?? 'N/A') ?></span>
+                                            <span class="text-muted"><?= htmlspecialchars($product['district'] ?? 'N/A') ?></span>
                                         </p>
                                         <p class="card-text small">
-                                            Available: <?= number_format($product['quantity_available'], 2) ?> <?= htmlspecialchars($product['unit']) ?>
+                                            Available: <?= number_format($product['quantity_available'], 2) ?> <?= htmlspecialchars($product['unit'] ?? 'KG') ?>
                                         </p>
                                     </div>
                                     <div class="card-footer">
                                         <a href="<?= $BASE_URL ?>product-details.php?id=<?= $product['product_id'] ?>" class="btn btn-primary btn-sm w-100">View Details</a>
-                                        <a href="<?= $BASE_URL ?>trace.php?tid=<?= htmlspecialchars($product['trace_id']) ?>" class="btn btn-outline-secondary btn-sm w-100 mt-2" target="_blank">
-                                            <i class="fas fa-qrcode"></i> QR Trace
-                                        </a>
                                     </div>
                                 </div>
                             </div>

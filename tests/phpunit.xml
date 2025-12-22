@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="Transporter Module Tests">
+            <directory>./Transporter</directory>
+        </testsuite>
+        <testsuite name="Farmer Module Tests">
+            <directory>./Farmer</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">../models</directory>
+            <directory suffix=".php">../controllers</directory>
+        </include>
+        <exclude>
+            <directory>../vendor</directory>
+            <directory>../node_modules</directory>
+        </exclude>
+    </coverage>
+</phpunit>
+

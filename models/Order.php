@@ -29,7 +29,7 @@ class Order {
     public function getForBuyer($buyer_id) {
         $sql = "SELECT o.*, u.full_name AS farmer_name, u.district AS farmer_district
                 FROM orders o
-                JOIN users u ON u.user_id = o.farmer_id
+                LEFT JOIN users u ON u.user_id = o.farmer_id
                 WHERE o.buyer_id = :bid
                 ORDER BY o.created_at DESC";
 
@@ -44,7 +44,7 @@ class Order {
     public function getByIdForBuyer($order_id, $buyer_id) {
         $sql = "SELECT o.*, u.full_name AS farmer_name, u.district AS farmer_district, u.upazila AS farmer_upazila
                 FROM orders o
-                JOIN users u ON u.user_id = o.farmer_id
+                LEFT JOIN users u ON u.user_id = o.farmer_id
                 WHERE o.order_id = :oid AND o.buyer_id = :bid";
 
         $stmt = $this->pdo->prepare($sql);
@@ -73,17 +73,94 @@ class Order {
     }
 
     /**
+     * Create order items for an order
+     */
+    public function createOrderItems($order_id, $cart_items) {
+        // Check if order_items table uses 'subtotal' or 'total_price' column
+        $checkColumn = $this->pdo->query("SHOW COLUMNS FROM order_items LIKE 'subtotal'");
+        $useSubtotal = $checkColumn->rowCount() > 0;
+        $priceColumn = $useSubtotal ? 'subtotal' : 'total_price';
+        
+        $sql = "INSERT INTO order_items (order_id, product_id, quantity, unit_price, $priceColumn, created_at)
+                VALUES (:order_id, :product_id, :quantity, :unit_price, :subtotal, NOW())";
+
+        $stmt = $this->pdo->prepare($sql);
+        
+        foreach ($cart_items as $item) {
+            $unit_price = $item['unit_price'] ?? $item['price_per_unit'] ?? 0;
+            $quantity = $item['quantity'] ?? 0;
+            $subtotal = $unit_price * $quantity;
+            
+            $stmt->execute([
+                ':order_id' => $order_id,
+                ':product_id' => $item['product_id'],
+                ':quantity' => $quantity,
+                ':unit_price' => $unit_price,
+                ':subtotal' => $subtotal
+            ]);
+        }
+        
+        return true;
+    }
+
+    /**
+     * Get order items for an order
+     */
+    public function getOrderItems($order_id) {
+        // Check if order_items table uses 'subtotal' or 'total_price' column
+        $checkColumn = $this->pdo->query("SHOW COLUMNS FROM order_items LIKE 'subtotal'");
+        $useSubtotal = $checkColumn->rowCount() > 0;
+        $priceColumn = $useSubtotal ? 'subtotal' : 'total_price';
+        
+        $sql = "SELECT oi.*, p.title, p.image_url, p.unit
+                FROM order_items oi
+                JOIN products p ON p.product_id = oi.product_id
+                WHERE oi.order_id = :order_id
+                ORDER BY oi.created_at ASC";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':order_id' => $order_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Update order payment status
      */
     public function updatePaymentStatus($order_id, $buyer_id, $payment_status) {
-        $sql = "UPDATE orders SET payment_status = :payment_status, status = 'PAID' 
+        // Keep order.status aligned with payment_status
+        $newStatus = 'PROCESSING';
+        if ($payment_status === 'PAID') {
+            $newStatus = 'PAID';
+        } elseif ($payment_status === 'REFUNDED') {
+            $newStatus = 'CANCELLED';
+        }
+
+        $sql = "UPDATE orders SET payment_status = :payment_status, status = :status, updated_at = NOW()
                 WHERE order_id = :oid AND buyer_id = :bid";
 
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
             ':oid' => $order_id,
             ':bid' => $buyer_id,
-            ':payment_status' => $payment_status
+            ':payment_status' => $payment_status,
+            ':status' => $newStatus
+        ]);
+    }
+    
+    /**
+     * Update order when payment is submitted for review
+     */
+    public function updateOrderForPaymentReview($order_id, $buyer_id) {
+        $sql = "UPDATE orders 
+                SET payment_status = 'PENDING', 
+                    status = 'PROCESSING',
+                    updated_at = NOW()
+                WHERE order_id = :oid AND buyer_id = :bid";
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':oid' => $order_id,
+            ':bid' => $buyer_id
         ]);
     }
 }

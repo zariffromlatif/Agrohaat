@@ -1,0 +1,5 @@
+<!-- Simple SVG placeholder for MasterCard -->
+<svg width="100" height="60" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="60" fill="#EB001B" rx="8"/>
+  <text x="50" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">MasterCard</text>
+</svg>
