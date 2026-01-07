@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
          bootstrap="bootstrap.php"
@@ -13,7 +13,7 @@
             <directory>./Transporter</directory>
         </testsuite>
         <testsuite name="Farmer Module Tests">
-            <directory>./Farmer</directory>
+            <directory suffix=".php">./Farmer</directory>
         </testsuite>
     </testsuites>
     <coverage>
@@ -27,4 +27,3 @@
         </exclude>
     </coverage>
 </phpunit>
-

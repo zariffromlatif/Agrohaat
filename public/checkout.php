@@ -150,13 +150,48 @@ include '../includes/header.php';
     background-color: #f8f9ff;
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
 }
-.payment-form {
+.payment-instructions {
     border: 1px solid #007bff;
     border-radius: 8px;
     padding: 20px;
     margin-top: 20px;
     background: #f8f9ff;
     display: none;
+}
+.payment-instructions.active {
+    display: block;
+}
+.instruction-step {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 4px solid #007bff;
+}
+.instruction-step .step-number {
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.farmer-details {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+}
+.transaction-form-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
 }
 #pay-btn:disabled {
     opacity: 0.6;
@@ -197,48 +232,271 @@ include '../includes/header.php';
                                     <div class="row">
                                         <div class="col-md-6 mb-2">
                                             <label class="payment-option">
-                                                <input type="radio" name="payment_method" value="BKASH" required>
+                                                <input type="radio" name="payment_method" value="BKASH" required data-method="bkash">
                                                 <div class="payment-card"><span>bKash</span></div>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label class="payment-option">
-                                                <input type="radio" name="payment_method" value="NAGAD" required>
+                                                <input type="radio" name="payment_method" value="NAGAD" required data-method="nagad">
                                                 <div class="payment-card"><span>Nagad</span></div>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label class="payment-option">
-                                                <input type="radio" name="payment_method" value="ROCKET" required>
+                                                <input type="radio" name="payment_method" value="ROCKET" required data-method="rocket">
                                                 <div class="payment-card"><span>Rocket</span></div>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label class="payment-option">
-                                                <input type="radio" name="payment_method" value="UPAY" required>
+                                                <input type="radio" name="payment_method" value="UPAY" required data-method="upay">
                                                 <div class="payment-card"><span>Upay</span></div>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label class="payment-option">
-                                                <input type="radio" name="payment_method" value="BANK_TRANSFER" required>
+                                                <input type="radio" name="payment_method" value="BANK_TRANSFER" required data-method="bank">
                                                 <div class="payment-card"><span>Bank Transfer</span></div>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Transaction ID Form -->
-                                <div id="transaction-form" class="payment-form">
-                                    <div class="alert alert-info">
-                                        <strong>Instructions:</strong><br>
-                                        Complete your payment using the selected method, then enter the Transaction ID you received.
+                                <!-- Payment Instructions -->
+                                <!-- bKash Instructions -->
+                                <div id="instructions-bkash" class="payment-instructions">
+                                    <h5 class="mb-3"><i class="fas fa-info-circle"></i> bKash Payment Instructions</h5>
+                                    
+                                    <div class="farmer-details">
+                                        <h6><i class="fas fa-user"></i> Farmer Payment Details</h6>
+                                        <p class="mb-1"><strong>Name:</strong> <?= htmlspecialchars($order['farmer_name']) ?></p>
+                                        <p class="mb-1"><strong>bKash Number:</strong> <span class="text-primary fw-bold"><?= htmlspecialchars($order['farmer_phone']) ?></span></p>
+                                        <p class="mb-0"><strong>Amount to Send:</strong> <span class="text-danger fw-bold">৳<?= number_format($order['total_amount'], 2) ?></span></p>
                                     </div>
+                                    
+                                    <div class="instruction-step">
+                                        <span class="step-number">1</span>
+                                        <strong>Open bKash App or Dial *247#</strong> on your mobile phone
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">2</span>
+                                        Select <strong>"Send Money"</strong> option
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">3</span>
+                                        Enter farmer's bKash number: <strong><?= htmlspecialchars($order['farmer_phone']) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">4</span>
+                                        Enter amount: <strong>৳<?= number_format($order['total_amount'], 2) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">5</span>
+                                        Add reference: <strong>Order #<?= $order['order_id'] ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">6</span>
+                                        Enter your bKash PIN and <strong>confirm the transaction</strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">7</span>
+                                        You will receive a <strong>Transaction ID</strong> via SMS - Enter it below
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Please keep the transaction ID safe. Admin will verify your payment before order confirmation.
+                                    </div>
+                                </div>
+                                
+                                <!-- Nagad Instructions -->
+                                <div id="instructions-nagad" class="payment-instructions">
+                                    <h5 class="mb-3"><i class="fas fa-info-circle"></i> Nagad Payment Instructions</h5>
+                                    
+                                    <div class="farmer-details">
+                                        <h6><i class="fas fa-user"></i> Farmer Payment Details</h6>
+                                        <p class="mb-1"><strong>Name:</strong> <?= htmlspecialchars($order['farmer_name']) ?></p>
+                                        <p class="mb-1"><strong>Nagad Number:</strong> <span class="text-primary fw-bold"><?= htmlspecialchars($order['farmer_phone']) ?></span></p>
+                                        <p class="mb-0"><strong>Amount to Send:</strong> <span class="text-danger fw-bold">৳<?= number_format($order['total_amount'], 2) ?></span></p>
+                                    </div>
+                                    
+                                    <div class="instruction-step">
+                                        <span class="step-number">1</span>
+                                        <strong>Open Nagad App or Dial *167#</strong> on your mobile phone
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">2</span>
+                                        Select <strong>"Send Money"</strong> option
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">3</span>
+                                        Enter farmer's Nagad number: <strong><?= htmlspecialchars($order['farmer_phone']) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">4</span>
+                                        Enter amount: <strong>৳<?= number_format($order['total_amount'], 2) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">5</span>
+                                        Add reference: <strong>Order #<?= $order['order_id'] ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">6</span>
+                                        Enter your Nagad PIN and <strong>confirm the transaction</strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">7</span>
+                                        You will receive a <strong>Transaction ID</strong> via SMS - Enter it below
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Please keep the transaction ID safe. Admin will verify your payment before order confirmation.
+                                    </div>
+                                </div>
+                                
+                                <!-- Rocket Instructions -->
+                                <div id="instructions-rocket" class="payment-instructions">
+                                    <h5 class="mb-3"><i class="fas fa-info-circle"></i> Rocket Payment Instructions</h5>
+                                    
+                                    <div class="farmer-details">
+                                        <h6><i class="fas fa-user"></i> Farmer Payment Details</h6>
+                                        <p class="mb-1"><strong>Name:</strong> <?= htmlspecialchars($order['farmer_name']) ?></p>
+                                        <p class="mb-1"><strong>Rocket Number:</strong> <span class="text-primary fw-bold"><?= htmlspecialchars($order['farmer_phone']) ?></span></p>
+                                        <p class="mb-0"><strong>Amount to Send:</strong> <span class="text-danger fw-bold">৳<?= number_format($order['total_amount'], 2) ?></span></p>
+                                    </div>
+                                    
+                                    <div class="instruction-step">
+                                        <span class="step-number">1</span>
+                                        <strong>Dial *322#</strong> on your mobile phone
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">2</span>
+                                        Select <strong>"Send Money"</strong> option
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">3</span>
+                                        Enter farmer's Rocket number: <strong><?= htmlspecialchars($order['farmer_phone']) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">4</span>
+                                        Enter amount: <strong>৳<?= number_format($order['total_amount'], 2) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">5</span>
+                                        Add reference: <strong>Order #<?= $order['order_id'] ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">6</span>
+                                        Enter your Rocket PIN and <strong>confirm the transaction</strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">7</span>
+                                        You will receive a <strong>Transaction ID</strong> via SMS - Enter it below
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Please keep the transaction ID safe. Admin will verify your payment before order confirmation.
+                                    </div>
+                                </div>
+                                
+                                <!-- Upay Instructions -->
+                                <div id="instructions-upay" class="payment-instructions">
+                                    <h5 class="mb-3"><i class="fas fa-info-circle"></i> Upay Payment Instructions</h5>
+                                    
+                                    <div class="farmer-details">
+                                        <h6><i class="fas fa-user"></i> Farmer Payment Details</h6>
+                                        <p class="mb-1"><strong>Name:</strong> <?= htmlspecialchars($order['farmer_name']) ?></p>
+                                        <p class="mb-1"><strong>Upay Number:</strong> <span class="text-primary fw-bold"><?= htmlspecialchars($order['farmer_phone']) ?></span></p>
+                                        <p class="mb-0"><strong>Amount to Send:</strong> <span class="text-danger fw-bold">৳<?= number_format($order['total_amount'], 2) ?></span></p>
+                                    </div>
+                                    
+                                    <div class="instruction-step">
+                                        <span class="step-number">1</span>
+                                        <strong>Open Upay App</strong> on your mobile phone
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">2</span>
+                                        Select <strong>"Send Money"</strong> option
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">3</span>
+                                        Enter farmer's Upay number: <strong><?= htmlspecialchars($order['farmer_phone']) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">4</span>
+                                        Enter amount: <strong>৳<?= number_format($order['total_amount'], 2) ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">5</span>
+                                        Add reference: <strong>Order #<?= $order['order_id'] ?></strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">6</span>
+                                        Enter your Upay PIN and <strong>confirm the transaction</strong>
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">7</span>
+                                        You will receive a <strong>Transaction ID</strong> - Enter it below
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Please keep the transaction ID safe. Admin will verify your payment before order confirmation.
+                                    </div>
+                                </div>
+                                
+                                <!-- Bank Transfer Instructions -->
+                                <div id="instructions-bank" class="payment-instructions">
+                                    <h5 class="mb-3"><i class="fas fa-info-circle"></i> Bank Transfer Instructions</h5>
+                                    
+                                    <div class="farmer-details">
+                                        <h6><i class="fas fa-building"></i> Farmer Bank Account Details</h6>
+                                        <p class="mb-1"><strong>Account Holder:</strong> <?= htmlspecialchars($order['farmer_name']) ?></p>
+                                        <p class="mb-1"><strong>Bank:</strong> <span class="text-primary">Dutch-Bangla Bank Limited (DBBL)</span></p>
+                                        <p class="mb-1"><strong>Branch:</strong> <span class="text-primary">Gulshan Branch, Dhaka</span></p>
+                                        <p class="mb-1"><strong>Account Number:</strong> <span class="text-primary fw-bold">123-456-789012</span></p>
+                                        <p class="mb-1"><strong>Routing Number:</strong> <span class="text-primary fw-bold">090270704</span></p>
+                                        <p class="mb-0"><strong>Amount to Transfer:</strong> <span class="text-danger fw-bold">৳<?= number_format($order['total_amount'], 2) ?></span></p>
+                                    </div>
+                                    
+                                    <div class="alert alert-info mt-3">
+                                        <strong>Note:</strong> You can transfer money through your bank's mobile app, online banking, ATM, or by visiting a bank branch.
+                                    </div>
+                                    
+                                    <h6 class="mt-3">Transfer Methods:</h6>
+                                    
+                                    <div class="instruction-step">
+                                        <span class="step-number">1</span>
+                                        <strong>Internet Banking:</strong> Log in to your bank's online portal, select "Fund Transfer" → "Other Bank Transfer" → Enter farmer's account details and amount
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">2</span>
+                                        <strong>Mobile Banking App:</strong> Open your banking app → Select "Transfer" → "BEFTN/RTGS" → Enter farmer's account details
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">3</span>
+                                        <strong>Bank Branch:</strong> Visit your bank with cash/cheque → Fill deposit slip with farmer's account number → Get transaction receipt
+                                    </div>
+                                    <div class="instruction-step">
+                                        <span class="step-number">4</span>
+                                        <strong>ATM Deposit:</strong> Insert card → Select "Deposit" → "Other Account" → Enter farmer's account number → Insert cash → Get receipt
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> After completing the transfer, enter the <strong>Transaction ID / Reference Number</strong> from your receipt below. Add reference "Order #<?= $order['order_id'] ?>" during transfer if possible.
+                                    </div>
+                                </div>
+                                
+                                <!-- Transaction ID Form -->
+                                <div id="transaction-form" class="transaction-form-section" style="display: none;">
+                                    <h6 class="mb-3"><i class="fas fa-receipt"></i> Submit Transaction Details</h6>
                                     <div class="mb-3">
-                                        <label class="form-label">Transaction ID *</label>
+                                        <label class="form-label">Transaction ID / Reference Number *</label>
                                         <input type="text" name="transaction_id" class="form-control" 
-                                               placeholder="Enter transaction ID" required>
-                                        <small class="form-text text-muted">Enter the transaction ID from your payment confirmation.</small>
+                                               placeholder="Enter your transaction ID" required>
+                                        <small class="form-text text-muted">
+                                            Enter the transaction ID you received after completing the payment. 
+                                            This will be verified by our admin team.
+                                        </small>
                                     </div>
                                 </div>
                                 
@@ -342,11 +600,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (paymentMethods.length > 0 && transactionForm && payBtn) {
         paymentMethods.forEach(function(radio) {
             radio.addEventListener('change', function() {
-                if (this.checked) {
-                    transactionForm.style.display = 'block';
-                    payBtn.disabled = false;
-                    payBtn.textContent = 'Submit Payment';
+                // Hide all instruction sections
+                const allInstructions = document.querySelectorAll('.payment-instructions');
+                allInstructions.forEach(function(inst) {
+                    inst.classList.remove('active');
+                });
+                
+                // Show selected payment instructions
+                const method = this.getAttribute('data-method');
+                const instructionsDiv = document.getElementById('instructions-' + method);
+                if (instructionsDiv) {
+                    instructionsDiv.classList.add('active');
                 }
+                
+                // Show transaction form and enable button
+                transactionForm.style.display = 'block';
+                payBtn.disabled = false;
+                payBtn.textContent = 'Submit Payment';
+                
+                // Scroll to instructions
+                instructionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
         });
         
@@ -365,6 +638,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (!transactionId) {
                     alert('Please enter transaction ID.');
+                    e.preventDefault();
+                    return;
+                }
+                
+                // Confirm submission
+                if (!confirm('Have you completed the payment and received the transaction ID?\n\nTransaction ID: ' + transactionId + '\n\nClick OK to submit for admin verification.')) {
                     e.preventDefault();
                     return;
                 }

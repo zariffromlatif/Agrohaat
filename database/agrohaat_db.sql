@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2025 at 02:27 AM
+-- Generation Time: Jan 01, 2026 at 09:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -238,6 +238,14 @@ CREATE TABLE `messages` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`message_id`, `order_id`, `sender_id`, `receiver_id`, `content`, `is_read`, `created_at`) VALUES
+(1, 4, 8, 7, 'Hello', 0, '2025-12-21 15:07:07'),
+(2, 5, 8, 7, 'Hello. your product is ready', 0, '2025-12-21 17:45:29');
+
 -- --------------------------------------------------------
 
 --
@@ -279,7 +287,7 @@ CREATE TABLE `orders` (
   `farmer_id` bigint(20) DEFAULT NULL,
   `total_amount` decimal(12,2) NOT NULL,
   `status` enum('PENDING','PAID','PROCESSING','READY_FOR_PICKUP','SHIPPED','DELIVERED','CANCELLED','DISPUTED') DEFAULT 'PENDING',
-  `payment_status` enum('UNPAID','PAID','REFUNDED') NOT NULL DEFAULT 'UNPAID',
+  `payment_status` enum('UNPAID','PENDING','PAID','PARTIAL','REFUNDED') DEFAULT 'UNPAID',
   `payment_method` varchar(50) DEFAULT NULL,
   `transaction_id` varchar(255) DEFAULT NULL,
   `shipping_address` text NOT NULL,
@@ -287,6 +295,20 @@ CREATE TABLE `orders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `buyer_id`, `farmer_id`, `total_amount`, `status`, `payment_status`, `payment_method`, `transaction_id`, `shipping_address`, `delivery_note`, `created_at`, `updated_at`) VALUES
+(1, 7, 1, 65.00, 'PENDING', 'UNPAID', NULL, NULL, 'Adabor', NULL, '2025-12-21 02:59:15', NULL),
+(2, 7, 1, 65.00, 'PENDING', 'UNPAID', NULL, NULL, 'Adabor', NULL, '2025-12-21 03:06:37', NULL),
+(3, 7, 1, 65.00, '', 'PAID', NULL, NULL, 'Badda', NULL, '2025-12-21 04:08:59', '2025-12-21 04:51:33'),
+(4, 7, 8, 20.00, 'PENDING', 'UNPAID', NULL, NULL, 'Badda', NULL, '2025-12-21 04:49:48', NULL),
+(5, 7, 8, 200.00, 'PENDING', 'UNPAID', NULL, NULL, 'Badda', NULL, '2025-12-21 17:11:53', NULL),
+(6, 7, 8, 20.00, 'PENDING', 'UNPAID', NULL, NULL, 'Badda', NULL, '2025-12-21 17:30:43', NULL),
+(7, 7, 8, 400.00, 'PENDING', 'UNPAID', NULL, NULL, 'Badda', NULL, '2025-12-21 17:50:36', NULL),
+(8, 7, 8, 20.00, 'PENDING', 'UNPAID', NULL, NULL, 'Badda', NULL, '2025-12-21 17:55:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -304,6 +326,19 @@ CREATE TABLE `order_items` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`item_id`, `order_id`, `product_id`, `quantity`, `unit_price`, `subtotal`, `created_at`) VALUES
+(1, 2, 1, 1.00, 65.00, 65.00, '2025-12-21 03:06:37'),
+(2, 3, 1, 1.00, 65.00, 65.00, '2025-12-21 04:08:59'),
+(3, 4, 2, 1.00, 20.00, 20.00, '2025-12-21 04:49:48'),
+(4, 5, 9, 10.00, 20.00, 200.00, '2025-12-21 17:11:53'),
+(5, 6, 9, 1.00, 20.00, 20.00, '2025-12-21 17:30:43'),
+(6, 7, 9, 20.00, 20.00, 400.00, '2025-12-21 17:50:36'),
+(7, 8, 9, 1.00, 20.00, 20.00, '2025-12-21 17:55:54');
+
 -- --------------------------------------------------------
 
 --
@@ -313,12 +348,79 @@ CREATE TABLE `order_items` (
 CREATE TABLE `payments` (
   `payment_id` bigint(20) NOT NULL,
   `order_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `method_id` bigint(20) NOT NULL,
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `gateway_transaction_id` varchar(255) DEFAULT NULL,
+  `gateway_response` text DEFAULT NULL,
+  `payment_details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`payment_details`)),
+  `reference_number` varchar(100) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `processed_at` timestamp NULL DEFAULT NULL,
+  `amount` decimal(12,2) NOT NULL,
+  `processing_fee` decimal(10,2) DEFAULT 0.00,
+  `total_amount` decimal(10,2) NOT NULL,
+  `status` enum('PENDING','PROCESSING','COMPLETED','FAILED','CANCELLED','REFUNDED') DEFAULT 'PENDING',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `order_id`, `user_id`, `method_id`, `transaction_id`, `gateway_transaction_id`, `gateway_response`, `payment_details`, `reference_number`, `notes`, `processed_at`, `amount`, `processing_fee`, `total_amount`, `status`, `created_at`, `updated_at`) VALUES
+(1, 3, 7, 1, 'TEST_1766290887', NULL, NULL, '{\"transaction_id\":\"TEST_1766290887\",\"payment_method\":\"bKash\",\"submitted_at\":\"2025-12-21 05:21:27\",\"notes\":\"Test payment creation\"}', 'PAY20251221493175', '', '2025-12-21 04:51:33', 65.00, 0.98, 65.98, 'COMPLETED', '2025-12-21 04:21:27', '2025-12-21 04:51:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments_backup`
+--
+
+CREATE TABLE `payments_backup` (
+  `payment_id` bigint(20) NOT NULL DEFAULT 0,
+  `order_id` bigint(20) NOT NULL,
   `payment_method` enum('BKASH','NAGAD','ROCKET','CASH') NOT NULL,
   `transaction_id` varchar(100) DEFAULT NULL,
   `amount` decimal(12,2) NOT NULL,
   `status` enum('PENDING','SUCCESS','FAILED') DEFAULT 'PENDING',
   `paid_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_methods`
+--
+
+CREATE TABLE `payment_methods` (
+  `method_id` bigint(20) NOT NULL,
+  `type` enum('MOBILE_BANKING','BANK_TRANSFER','CARD','CASH_ON_DELIVERY') NOT NULL,
+  `provider` varchar(100) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `logo_url` varchar(500) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `processing_fee_percentage` decimal(5,2) DEFAULT 0.00,
+  `min_amount` decimal(10,2) DEFAULT 0.00,
+  `max_amount` decimal(10,2) DEFAULT NULL,
+  `instructions` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`method_id`, `type`, `provider`, `name`, `logo_url`, `is_active`, `processing_fee_percentage`, `min_amount`, `max_amount`, `instructions`, `created_at`) VALUES
+(1, 'MOBILE_BANKING', 'bKash', 'bKash', NULL, 1, 1.50, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(2, 'MOBILE_BANKING', 'Nagad', 'Nagad', NULL, 1, 1.50, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(3, 'MOBILE_BANKING', 'Rocket', 'Rocket', NULL, 1, 1.80, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(4, 'MOBILE_BANKING', 'Upay', 'Upay', NULL, 1, 1.50, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(5, 'CARD', 'Visa', 'Visa Card', NULL, 1, 2.50, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(6, 'CARD', 'MasterCard', 'MasterCard', NULL, 1, 2.50, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(7, 'CARD', 'Amex', 'American Express', NULL, 1, 3.00, 0.00, NULL, NULL, '2025-12-21 01:37:31'),
+(8, 'BANK_TRANSFER', 'DBBL', 'Bank Transfer', NULL, 1, 0.00, 0.00, NULL, NULL, '2025-12-21 01:37:31');
 
 -- --------------------------------------------------------
 
@@ -341,7 +443,7 @@ CREATE TABLE `products` (
   `batch_number` varchar(50) DEFAULT NULL,
   `trace_id` varchar(64) NOT NULL,
   `qr_code_url` varchar(255) DEFAULT NULL,
-  `status` enum('ACTIVE','SOLD_OUT','HIDDEN') DEFAULT 'ACTIVE',
+  `status` enum('PENDING','ACTIVE','INACTIVE','SOLD_OUT','HIDDEN') DEFAULT 'PENDING',
   `is_deleted` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -352,7 +454,44 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `farmer_id`, `category_id`, `title`, `description`, `image_url`, `quantity_available`, `unit`, `price_per_unit`, `quality_grade`, `harvest_date`, `batch_number`, `trace_id`, `qr_code_url`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Premium Miniket Rice', NULL, NULL, 1000.00, 'KG', 65.00, 'A', '2025-11-15', NULL, 'UUID-TRACE-001', NULL, 'ACTIVE', 0, '2025-11-18 11:11:04', '2025-12-05 13:50:59');
+(1, 1, 1, 'Premium Miniket Rice', NULL, NULL, 1000.00, 'KG', 65.00, 'A', '2025-11-15', NULL, 'UUID-TRACE-001', NULL, 'ACTIVE', 0, '2025-11-18 11:11:04', '2025-12-05 13:50:59'),
+(2, 8, 1, 'Potato', 'Fresh potato', 'uploads/product_images/1766291319_download.jpeg', 500.00, 'KG', 20.00, 'A', '2025-11-29', '1', 'TRC694777773f2d8', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http%3A%2F%2Flocalhost%2FAgrohaat%2Fpublic%2Ftrace.php%3Ftid%3DTRC694777773f2d8', 'ACTIVE', 1, '2025-12-21 04:28:39', '2025-12-21 16:33:43'),
+(3, 8, 2, 'Tomato', 'Fresh tomato', NULL, 200.00, 'KG', 70.00, 'A', '2025-12-10', '12', 'TRACE_1766333858_69481da298466', NULL, '', 1, '2025-12-21 16:17:38', '2025-12-21 16:29:08'),
+(4, 8, 2, 'Tomato', 'Fresh tomato', NULL, 200.00, 'KG', 70.00, 'A', '2025-12-10', '12', 'TRACE_1766334539_6948204bd5798', NULL, '', 1, '2025-12-21 16:28:59', '2025-12-21 16:29:06'),
+(5, 8, 2, 'Tomato', 'Fresh Tomato', NULL, 100.00, 'KG', 70.00, 'A', '2025-12-02', '12', 'TRACE_1766334610_6948209228208', NULL, '', 1, '2025-12-21 16:30:10', '2025-12-21 16:38:35'),
+(6, 8, 1, 'Tomato', 'Fresh Tomato', NULL, 200.00, 'KG', 70.00, 'A', '2025-12-02', '1', 'TRACE_1766335076_69482264de3b3', NULL, '', 1, '2025-12-21 16:37:56', '2025-12-21 16:38:37'),
+(7, 8, 3, 'Tomato', 'Fresh Tomato', NULL, 100.00, 'KG', 70.00, 'A', '2025-12-03', '1', 'TRACE_1766335153_694822b176134', NULL, '', 1, '2025-12-21 16:39:13', '2025-12-21 16:45:21'),
+(8, 8, 1, 'Potato', 'Fresh', 'uploads/product_images/1766335515_download.jpeg', 100.00, 'KG', 20.00, 'A', '2025-12-05', '1', 'TRACE_1766335515_6948241b0b49c', NULL, '', 1, '2025-12-21 16:45:15', '2025-12-21 17:06:34'),
+(9, 8, 1, 'Potato', 'Fresh', 'uploads/product_images/1766336849_download.jpeg', 200.00, 'kg', 20.00, 'B', '2025-11-06', '1', 'TRACE_1766336849_694829518bfaa', NULL, 'ACTIVE', 0, '2025-12-21 17:07:29', '2025-12-21 17:08:06'),
+(10, 8, 2, 'Tomato', 'Fresh Natural Tomato', 'uploads/product_images/1766339198_7932idea99Tomatoes-HD-Image-011.jpg', 100.00, 'kg', 70.00, 'A', '2025-12-04', '2', 'TRACE_1766339198_6948327ec409a', NULL, 'ACTIVE', 0, '2025-12-21 17:46:38', '2025-12-21 17:58:02'),
+(11, 8, 3, 'Cucumber', 'Natural Cucumber. No chemical, authentic', 'uploads/product_images/1767254110_0_cucumber-farming.jpg', 300.00, 'kg', 40.00, 'A', '2025-12-30', '456', 'TRACE_1767254110_6956285eb0d1e', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http%3A%2F%2Flocalhost%2FAgrohaat%2Fpublic%2Ftrace.php%3Ftrace_id%3DTRACE_1767254110_6956285eb0d1e', 'ACTIVE', 1, '2026-01-01 07:55:10', '2026-01-01 08:14:52'),
+(12, 8, 5, 'Cucumber', 'Fresh, Natural, Authentic Cucumber', 'uploads/product_images/1767255352_0_cucumber-farming.jpg', 300.00, 'kg', 40.00, 'A', '2025-12-26', '456', 'TRACE_1767255352_69562d3858e55', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http%3A%2F%2Flocalhost%2FAgrohaat%2Fpublic%2Ftrace.php%3Ftrace_id%3DTRACE_1767255352_69562d3858e55', 'ACTIVE', 0, '2026-01-01 08:15:52', '2026-01-01 08:16:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_images`
+--
+
+CREATE TABLE `product_images` (
+  `image_id` bigint(20) NOT NULL,
+  `product_id` bigint(20) NOT NULL,
+  `image_url` varchar(500) NOT NULL,
+  `display_order` int(11) DEFAULT 0,
+  `is_primary` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_images`
+--
+
+INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `display_order`, `is_primary`, `created_at`) VALUES
+(1, 9, 'uploads/product_images/1766336849_download.jpeg', 0, 1, '2026-01-01 08:09:48'),
+(2, 10, 'uploads/product_images/1766339198_7932idea99Tomatoes-HD-Image-011.jpg', 0, 1, '2026-01-01 08:09:48'),
+(3, 11, 'uploads/product_images/1767254110_0_cucumber-farming.jpg', 0, 1, '2026-01-01 08:09:48'),
+(4, 12, 'uploads/product_images/1767255352_0_cucumber-farming.jpg', 0, 1, '2026-01-01 08:15:52'),
+(5, 12, 'uploads/product_images/1767255352_1_Step-by-Step-Guide-to-Cucumber-Farming1.jpg', 1, 0, '2026-01-01 08:15:52');
 
 -- --------------------------------------------------------
 
@@ -414,6 +553,13 @@ CREATE TABLE `transporter_profiles` (
   `user_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transporter_profiles`
+--
+
+INSERT INTO `transporter_profiles` (`transporter_id`, `vehicle_type`, `license_plate`, `max_capacity_kg`, `service_area_districts`, `is_verified`, `created_at`, `updated_at`, `vehicle_number`, `capacity_kg`, `service_area`, `is_available`, `user_id`) VALUES
+(6, 'PICKUP', 'DHK-T-1234', 1000, 'Dhaka, Tangail', 0, '2025-12-21 15:05:42', '2025-12-21 18:01:07', NULL, NULL, NULL, 1, 6);
+
 -- --------------------------------------------------------
 
 --
@@ -450,8 +596,8 @@ INSERT INTO `users` (`user_id`, `full_name`, `phone_number`, `email`, `password_
 (4, 'Zarif Latif', '01308035203', 'zariffromlatif@gmail.com', '$2y$10$66KzdBtn4zt8wKcWCuTtX.WG2zbadzbLiWhr3smx9AM/EBOU.B38O', 'FARMER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-12-02 11:43:08', '2025-12-07 20:12:42'),
 (5, 'Admin User', '+8801234567890', 'admin@agrohaat.com', '$2y$10$MNkgh5O9XevnkDCo87rHoe662XCL9MKT.6zpe15d6uCs3usRZECZG', 'ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-12-05 14:30:14', '2025-12-05 14:46:16'),
 (6, 'Karim', '+8801738675439', 'karim@transporter.com', '$2y$10$2kASfNK3MOwUePrV4jMCUu156GkWKPOysAbBuN1MVLbiHssbEl9U2', 'TRANSPORTER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-12-05 14:53:43', '2025-12-07 20:12:40'),
-(7, 'Rahim', '+8801748532954', 'rahim@buyer.com', '$2y$10$0lHCrwbNI1a.u9hUz0rkNO3MV4obNntHoparVYq94iTXxeIJbcORu', 'BUYER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-12-05 14:55:24', '2025-12-07 20:12:38'),
-(8, 'jamal', '+8801758356853', 'jamal@farmer.com', '$2y$10$XH5inZepYGRCv.AOZnYu1.pFyS8f02eHJ.kb5wJGVjWR78yln1zQm', 'FARMER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-12-05 14:57:04', '2025-12-07 20:12:35');
+(7, 'Rahim', '+8801748532954', 'rahim@buyer.com', '$2y$10$0lHCrwbNI1a.u9hUz0rkNO3MV4obNntHoparVYq94iTXxeIJbcORu', 'BUYER', NULL, 'Dhaka', 'Badda', '', NULL, NULL, 1, 0, '2025-12-05 14:55:24', '2025-12-21 17:53:28'),
+(8, 'jamal', '+8801758356853', 'jamal@farmer.com', '$2y$10$XH5inZepYGRCv.AOZnYu1.pFyS8f02eHJ.kb5wJGVjWR78yln1zQm', 'FARMER', 'Tangail', 'Ghatail', 'Ghatail', NULL, NULL, NULL, 1, 0, '2025-12-05 14:57:04', '2025-12-21 04:32:58');
 
 --
 -- Indexes for dumped tables
@@ -583,7 +729,17 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`payment_id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `fk_payments_method` (`method_id`),
+  ADD KEY `idx_user` (`user_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_transaction` (`transaction_id`);
+
+--
+-- Indexes for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD PRIMARY KEY (`method_id`);
 
 --
 -- Indexes for table `products`
@@ -596,6 +752,15 @@ ALTER TABLE `products`
   ADD KEY `category_id` (`category_id`),
   ADD KEY `idx_products_search` (`title`,`category_id`,`status`),
   ADD KEY `idx_products_trace` (`trace_id`);
+
+--
+-- Indexes for table `product_images`
+--
+ALTER TABLE `product_images`
+  ADD PRIMARY KEY (`image_id`),
+  ADD KEY `idx_product` (`product_id`),
+  ADD KEY `idx_display_order` (`display_order`),
+  ADD KEY `idx_primary` (`is_primary`);
 
 --
 -- Indexes for table `reviews`
@@ -697,7 +862,7 @@ ALTER TABLE `farmerprofiles`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `message_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -715,25 +880,37 @@ ALTER TABLE `orderitems`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `item_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  MODIFY `method_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `product_images`
+--
+ALTER TABLE `product_images`
+  MODIFY `image_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -860,6 +1037,8 @@ ALTER TABLE `order_items`
 -- Constraints for table `payments`
 --
 ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_payments_method` FOREIGN KEY (`method_id`) REFERENCES `payment_methods` (`method_id`),
+  ADD CONSTRAINT `fk_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
@@ -868,6 +1047,12 @@ ALTER TABLE `payments`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`farmer_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
+
+--
+-- Constraints for table `product_images`
+--
+ALTER TABLE `product_images`
+  ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `reviews`

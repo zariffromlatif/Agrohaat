@@ -27,9 +27,7 @@ A comprehensive digital marketplace connecting farmers directly with buyers, eli
    - Create database: `agrohaat_db`
 
 4. **Import Database**
-   - Import `database/agrohaat_schema.sql`
-   - Import `database/admin_disputes_table.sql`
-   - Import `database/transporter_delivery_tables.sql`
+   - Import `database/agrohaat_db.sql` (complete database export)
 
 5. **Create Admin Account**
    ```sql
@@ -47,8 +45,8 @@ A comprehensive digital marketplace connecting farmers directly with buyers, eli
 
 ## 📚 Documentation
 
-- **Full Documentation:** See `PROJECT_DOCUMENTATION.md`
-- **Team Setup Guide:** See `TEAM_SETUP_GUIDE.md`
+- **API Documentation:** See `public/api/*/README.md` for API endpoints
+- **Test Documentation:** See `tests/README.md` for testing information
 
 ---
 
@@ -64,8 +62,8 @@ A comprehensive digital marketplace connecting farmers directly with buyers, eli
 ## 🗄️ Database
 
 - **Database Name:** `agrohaat_db`
-- **Tables:** 13 core tables
-- **Schema Files:** `database/` folder
+- **Database File:** `database/agrohaat_db.sql` (complete export)
+- **Tables:** 13+ core tables (users, products, orders, payments, etc.)
 
 ---
 
@@ -92,6 +90,7 @@ Agrohaat/
 ├── models/           # Data models
 ├── includes/         # Reusable components
 ├── public/           # Public pages
+├── tests/            # Unit tests
 └── database/         # SQL schemas
 ```
 
@@ -109,7 +108,6 @@ Agrohaat/
 
 ## 📞 Support
 
-**Email:** info@agrohaat.local  
 **Institution:** BRAC University, Dhaka  
 **Project:** CSE470 Group Project
 
@@ -121,16 +119,21 @@ Agrohaat/
 
 ---
 
-## 🔄 Recent Updates (v1.1 - January 2025)
+## 🔄 Recent Updates (v1.2 - January 2025)
 
-- ✅ Removed QR trace functionality
-- ✅ Fixed buyer dashboard functionality
-- ✅ Cleaned up test/debug files
-- ✅ Improved payment processing
-- ✅ Enhanced order management
-- ✅ Code cleanup and optimization
+- ✅ Added unit tests for Farmer Product API (Assignment 2)
+- ✅ Improved test infrastructure with SQLite support
+- ✅ Enhanced API testability with test mode support
+- ✅ Code cleanup and documentation updates
 
 ---
 
-**For detailed setup instructions, see `TEAM_SETUP_GUIDE.md`**
+## 🧪 Testing
+
+The project includes comprehensive unit tests. See `tests/README.md` for details on running tests.
+
+**Quick Test Run:**
+```bash
+php phpunit.phar --configuration tests/phpunit.xml tests/
+```
 

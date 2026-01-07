@@ -139,6 +139,11 @@ include '../includes/header.php';
                             
                             $displayImage = !empty($allImages) ? $allImages[0]['image_url'] : null;
                             $hasMultipleImages = count($allImages) > 1;
+                            
+                            // Debug: Log if product should show carousel
+                            if ($hasMultipleImages) {
+                                error_log("Product {$product['product_id']} has " . count($allImages) . " images - carousel should display");
+                            }
                         ?>
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100">
@@ -146,33 +151,39 @@ include '../includes/header.php';
                                         <div class="product-card-image-container" style="position: relative; height: 200px; overflow: hidden;">
                                             <?php if ($hasMultipleImages): ?>
                                                 <!-- Image Carousel for Multiple Images -->
-                                                <div id="carousel-<?= $product['product_id'] ?>" class="carousel slide" data-bs-ride="carousel" style="height: 100%;">
+                                                <div id="carousel-<?= $product['product_id'] ?>" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" style="height: 100%;">
                                                     <div class="carousel-inner" style="height: 100%;">
                                                         <?php foreach ($allImages as $index => $img): ?>
                                                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>" style="height: 100%;">
                                                                 <img src="<?= $BASE_URL . htmlspecialchars($img['image_url']) ?>" 
                                                                      class="d-block w-100" 
                                                                      alt="<?= htmlspecialchars($product['title'] ?? 'Product') ?>" 
-                                                                     style="height: 100%; object-fit: cover;">
+                                                                     style="height: 100%; object-fit: cover;"
+                                                                     onerror="this.src='<?= $BASE_URL ?>assets/images/innerpage/shop/product-1.jpg'">
                                                             </div>
                                                         <?php endforeach; ?>
                                                     </div>
-                                                    <?php if ($hasMultipleImages): ?>
-                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide="prev" style="width: 30px; height: 30px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border-radius: 50%;">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                            <span class="visually-hidden">Previous</span>
-                                                        </button>
-                                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide="next" style="width: 30px; height: 30px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border-radius: 50%;">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                            <span class="visually-hidden">Next</span>
-                                                        </button>
-                                                        <!-- Image Count Badge -->
-                                                        <div class="position-absolute top-0 end-0 m-2">
-                                                            <span class="badge bg-dark bg-opacity-75">
-                                                                <i class="fas fa-images"></i> <?= count($allImages) ?>
-                                                            </span>
-                                                        </div>
-                                                    <?php endif; ?>
+                                                    <!-- Navigation Controls -->
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide="prev" style="width: 40px; height: 40px; top: 50%; left: 5px; transform: translateY(-50%); background: rgba(0,0,0,0.6); border-radius: 50%; opacity: 0.8;">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide="next" style="width: 40px; height: 40px; top: 50%; right: 5px; transform: translateY(-50%); background: rgba(0,0,0,0.6); border-radius: 50%; opacity: 0.8;">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                    <!-- Image Count Badge -->
+                                                    <div class="position-absolute top-0 end-0 m-2">
+                                                        <span class="badge bg-dark bg-opacity-75">
+                                                            <i class="fas fa-images"></i> <?= count($allImages) ?>
+                                                        </span>
+                                                    </div>
+                                                    <!-- Carousel Indicators -->
+                                                    <div class="carousel-indicators" style="bottom: 5px;">
+                                                        <?php foreach ($allImages as $index => $img): ?>
+                                                            <button type="button" data-bs-target="#carousel-<?= $product['product_id'] ?>" data-bs-slide-to="<?= $index ?>" class="<?= $index === 0 ? 'active' : '' ?>" aria-current="<?= $index === 0 ? 'true' : 'false' ?>" aria-label="Slide <?= $index + 1 ?>"></button>
+                                                        <?php endforeach; ?>
+                                                    </div>
                                                 </div>
                                             <?php else: ?>
                                                 <!-- Single Image -->
@@ -238,5 +249,28 @@ include '../includes/header.php';
         </div>
     </div>
 </section>
+
+<script>
+// Initialize carousels manually to ensure they work
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all carousels
+    var carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(function(carousel) {
+        // Bootstrap 5 carousel initialization
+        if (typeof bootstrap !== 'undefined') {
+            var bsCarousel = new bootstrap.Carousel(carousel, {
+                interval: 3000,
+                wrap: true,
+                ride: 'carousel'
+            });
+        } else {
+            console.warn('Bootstrap JS not loaded - carousels may not work');
+        }
+    });
+    
+    // Debug: Log carousel count
+    console.log('Carousels found: ' + carousels.length);
+});
+</script>
 
 <?php include '../includes/footer.php'; ?>

@@ -73,9 +73,10 @@ tests/
 │   ├── BidManagementTest.php      # Bid creation and validation tests
 │   └── DeliveryStatusTest.php      # Delivery status update tests
 └── Farmer/
-    ├── ProductModelTest.php        # Product model CRUD tests
-    ├── ProductControllerTest.php   # Product controller tests
-    └── OrderModelTest.php          # Order model and status update tests
+    ├── 24341187_product_api.test.php  # Product API endpoint tests (Assignment 2)
+    ├── ProductModelTest.php            # Product model CRUD tests
+    ├── ProductControllerTest.php       # Product controller tests
+    └── OrderModelTest.php              # Order model and status update tests
 ```
 
 ## Test Coverage
@@ -103,6 +104,17 @@ tests/
 - ✅ Order status synchronization
 
 ### Farmer Module Tests
+
+#### ProductApiTest24341187 (Assignment 2)
+- ✅ Create product (POST) - Happy path
+- ✅ Get product by ID (GET) - Happy path
+- ✅ Update product (PUT) - Happy path
+- ✅ Delete product (DELETE) - Happy path
+- ✅ Validation error handling (400)
+- ✅ Resource not found (404)
+- ✅ Unauthorized access (401)
+- ✅ Programmatic authentication (no hardcoded tokens)
+- ✅ SQLite test database setup
 
 #### ProductModelTest
 - ✅ Create new product
@@ -174,4 +186,6 @@ jobs:
 ---
 
 **Last Updated:** 2025-01-27
+
+**Note:** Assignment 2 test file (`24341187_product_api.test.php`) follows the naming convention `{Student_ID}_{Feature_Name}.test.php` as required. The test file uses SQLite for isolated testing and includes all CRUD operations with proper authentication handling.
 

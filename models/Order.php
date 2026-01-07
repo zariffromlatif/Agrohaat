@@ -42,7 +42,7 @@ class Order {
      * Get order details by ID (for buyer)
      */
     public function getByIdForBuyer($order_id, $buyer_id) {
-        $sql = "SELECT o.*, u.full_name AS farmer_name, u.district AS farmer_district, u.upazila AS farmer_upazila
+        $sql = "SELECT o.*, u.full_name AS farmer_name, u.phone_number AS farmer_phone, u.district AS farmer_district, u.upazila AS farmer_upazila
                 FROM orders o
                 LEFT JOIN users u ON u.user_id = o.farmer_id
                 WHERE o.order_id = :oid AND o.buyer_id = :bid";

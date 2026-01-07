@@ -2,17 +2,38 @@
 require_once '../../config/config.php';
 require_once '../../controllers/OrderController.php';
 require_once '../../models/Order.php';
+require_once '../../controllers/ReviewController.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'FARMER') {
     redirect('farmer/login.php');
 }
 
 $controller = new OrderController($pdo);
-$orders     = $controller->getFarmerOrders($_SESSION['user_id']);
+$reviewController = new ReviewController($pdo);
+$orders = $controller->getFarmerOrders($_SESSION['user_id']);
+
+// Handle review submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
+    $order_id = intval($_POST['order_id']);
+    $buyer_id = intval($_POST['buyer_id']);
+    $rating = intval($_POST['rating']);
+    $comment = trim($_POST['comment'] ?? '');
+    
+    $result = $reviewController->submitReview($order_id, $_SESSION['user_id'], $buyer_id, $rating, $comment);
+    
+    if ($result['success']) {
+        $_SESSION['success'] = $result['message'];
+    } else {
+        $_SESSION['error'] = $result['message'];
+    }
+    
+    redirect('farmer/orders.php?id=' . $order_id);
+}
 
 // Get order detail if ID is provided
 $order_detail = null;
 $order_items = [];
+$existing_review = null;
 if (isset($_GET['id'])) {
     $order_id = (int)$_GET['id'];
     $orderModel = new Order($pdo);
@@ -27,6 +48,7 @@ if (isset($_GET['id'])) {
     
     if ($order_detail) {
         $order_items = $orderModel->getOrderItems($order_id);
+        $existing_review = $reviewController->getReviewForOrder($order_id, $_SESSION['user_id']);
     }
 }
 
@@ -38,6 +60,22 @@ include '../../includes/header.php';
 <section class="pt-80 pb-80">
     <div class="container">
         <h2 class="mb-4">My Orders</h2>
+        
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($_SESSION['error']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
 
         <?php if ($order_detail): ?>
             <!-- Order Detail View -->
@@ -122,6 +160,63 @@ include '../../includes/header.php';
                         </div>
                     </div>
                     
+                    <?php
+                    // Show rating form if order is delivered and not yet rated
+                    if ($order_detail['status'] === 'DELIVERED' && !$existing_review):
+                    ?>
+                        <hr>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">⭐ Rate Your Experience</h5>
+                                <p class="text-muted">Rate your experience with this buyer.</p>
+                                
+                                <form method="POST" action="">
+                                    <input type="hidden" name="order_id" value="<?= $order_detail['order_id'] ?>">
+                                    <input type="hidden" name="buyer_id" value="<?= $order_detail['buyer_id'] ?>">
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Rating (1-5 stars)</label>
+                                        <div class="rating-input">
+                                            <input type="radio" name="rating" value="5" id="rating5_f" required>
+                                            <label for="rating5_f" class="star">★</label>
+                                            <input type="radio" name="rating" value="4" id="rating4_f">
+                                            <label for="rating4_f" class="star">★</label>
+                                            <input type="radio" name="rating" value="3" id="rating3_f">
+                                            <label for="rating3_f" class="star">★</label>
+                                            <input type="radio" name="rating" value="2" id="rating2_f">
+                                            <label for="rating2_f" class="star">★</label>
+                                            <input type="radio" name="rating" value="1" id="rating1_f">
+                                            <label for="rating1_f" class="star">★</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="comment_f" class="form-label">Comment (Optional)</label>
+                                        <textarea name="comment" id="comment_f" class="form-control" rows="3" 
+                                                  placeholder="Share your experience..."></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" name="submit_review" class="btn btn-primary">
+                                        Submit Review
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php elseif ($existing_review): ?>
+                        <hr>
+                        <div class="alert alert-success">
+                            <h6>✅ You've already rated this order</h6>
+                            <p class="mb-0">
+                                <strong>Your Rating:</strong> 
+                                <?php for ($i = 0; $i < $existing_review['rating']; $i++): ?>★<?php endfor; ?>
+                                (<?= $existing_review['rating'] ?>/5)
+                            </p>
+                            <?php if ($existing_review['comment']): ?>
+                                <p class="mb-0 mt-2"><strong>Your Comment:</strong> <?= htmlspecialchars($existing_review['comment']) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                    
                     <div class="mt-3">
                         <a href="<?= $BASE_URL ?>farmer/chat.php?order_id=<?= (int)$order_detail['order_id'] ?>" class="btn btn-primary">
                             <i class="fas fa-comments"></i> Chat with Buyer
@@ -193,5 +288,35 @@ include '../../includes/header.php';
         <?php endif; ?>
     </div>
 </section>
+
+<style>
+.rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.rating-input input[type="radio"] {
+    display: none;
+}
+
+.rating-input label.star {
+    font-size: 2em;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating-input input[type="radio"]:checked ~ label.star,
+.rating-input label.star:hover,
+.rating-input label.star:hover ~ label.star {
+    color: #ffc107;
+}
+
+.rating-input input[type="radio"]:checked ~ label.star {
+    color: #ffc107;
+}
+</style>
 
 <?php include '../../includes/footer.php'; ?>

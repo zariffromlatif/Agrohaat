@@ -70,9 +70,10 @@ include '../../includes/header.php';
                 <input type="text" name="batch_number" class="form-control" required>
             </div>
 
-            <div class="col-md-4">
-                <label class="form-label">Product Image</label>
-                <input type="file" name="image" class="form-control" accept="image/*">
+            <div class="col-md-12">
+                <label class="form-label">Product Images (Multiple photos allowed)</label>
+                <input type="file" name="images[]" class="form-control" accept="image/*" multiple>
+                <small class="form-text text-muted">You can select multiple images at once. First image will be set as primary.</small>
             </div>
 
             <div class="col-12">
